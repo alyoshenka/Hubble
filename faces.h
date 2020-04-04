@@ -1,0 +1,6 @@
+#define FACE_SHRUG "¯\_(ツ)_/¯"
+#define FACE_BEAR "ʕ•ᴥ•ʔ"
+#define FACE_ANNOYED "ಠ_ಠ"
+#define FACE_FIGHT "(ง'̀-'́)ง"
+#define FACE_CRY "(ಥ﹏ಥ)"
+#define FACE_AT "(@_@)"

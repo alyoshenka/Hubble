@@ -5,15 +5,28 @@
 #include "pyHelper.hpp"
 #include <iostream>
 
+#include "/home/jay/raylib/src/raylib.h"
+#include "colors.h"
+
 class weatherGetter
 {
 	CppPyObject pModule;
-    CppPyInstance* pyInstance;
+	CppPyInstance* pyInstance;
+    
+    float weatherUpdateTime;
+    float updateElapsedTime;
+    float lastUpdateTime;
+
+    std::string weather;
+    std::string temperature;
 
 public:
 
 	weatherGetter()
 	{
+        weatherUpdateTime = 60 * 10;
+        updateElapsedTime = lastUpdateTime = 0;
+
         pyInstance = new CppPyInstance();
 
 		PyRun_SimpleString("import sys");
@@ -23,10 +36,13 @@ public:
 		pModule = PyImport_Import(pName);
 
 		if (!pModule) { PyErr_Print(); }
+
+        getWeather();
+        getTemperature();
 	}
 
 	~weatherGetter()
-     {
+    {
         pyInstance = nullptr;
     }
 
@@ -38,10 +54,12 @@ public:
 		if (pFunc && PyCallable_Check(pFunc))
 		{
 			CppPyObject pValue = PyObject_CallObject(pFunc, NULL);
-std::cout << 1 << std::endl;
 			if (pValue)
 			{
 				ret = _PyUnicode_AsString(pValue);
+                ret = ret.substr(0, 2) + "°f";
+                temperature = ret;
+                lastUpdateTime = 0;
 			}
 			else { PyErr_Print(); }
 		}
@@ -61,12 +79,34 @@ std::cout << 1 << std::endl;
 			if (pValue)
 			{
                 ret = _PyUnicode_AsString(pValue);
+                weather = ret;
+                lastUpdateTime = 0;
 			}
 			else { PyErr_Print(); }
 		}
 		else { PyErr_Print(); }
 
 		return ret;
+	}
+
+    void update(float frameTime)
+	{
+		updateElapsedTime += frameTime;
+		lastUpdateTime += frameTime;
+
+		if (updateElapsedTime > weatherUpdateTime)
+		{
+			updateElapsedTime = 0;
+			getWeather();
+			getTemperature();
+		}
+	}
+
+	void draw()
+	{
+		DrawText("Seattle, WA", 615, 110, 30, A_BLUE_2);
+		DrawText(weather.c_str(), 640, 155, 20, A_BLUE_1);
+		DrawText(temperature.c_str(), 640, 185, 20, A_BLUE_1);
 	}
 };
 

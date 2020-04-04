@@ -2,14 +2,18 @@
 #include <stdio.h>
 
 #include "/home/jay/raylib/src/raylib.h"
+#include "display.hpp"
 #include "pyHelper.hpp"
 #include "weatherGetter.hpp"
+#include "colors.h"
+
+#include "faces.h"
 
 int main() 
 {
+std::cout << FACE_ANNOYED << std::endl;
     weatherGetter weatherman;
-    std::string weather = weatherman.getWeather();
-    std::string temperature = weatherman.getTemperature() + "f";
+    display disp;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -28,18 +32,19 @@ int main()
         // Update
         //----------------------------------------------------------------------------------
         
+        disp.update(GetFrameTime());
+        weatherman.update(GetFrameTime());        
+
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-            ClearBackground(RAYWHITE);
-            DrawText("HUBBLE", 100, 100, 150, RED);
-            DrawText("(@_@)", 700, 440, 20, BLACK);
-            DrawText("Seattle, WA", 50, 280, 60, BLUE);
-            DrawText(weather.c_str(), 80, 350, 40, BLACK);
-            DrawText(temperature.c_str(), 80, 400, 40, BLACK);
+            ClearBackground(A_BLUE);
+
+            disp.draw();
+            weatherman.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
