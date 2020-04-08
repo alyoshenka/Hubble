@@ -6,14 +6,15 @@
 #include "pyHelper.hpp"
 #include "weatherGetter.hpp"
 #include "colors.h"
+#include "tank.hpp"
 
 #include "faces.h"
 
 int main() 
 {
-std::cout << FACE_ANNOYED << std::endl;
     weatherGetter weatherman;
     display disp;
+    tank tub;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -32,8 +33,10 @@ std::cout << FACE_ANNOYED << std::endl;
         // Update
         //----------------------------------------------------------------------------------
         
-        disp.update(GetFrameTime());
-        weatherman.update(GetFrameTime());        
+        float frameTime = GetFrameTime();
+        disp.update(frameTime);
+        weatherman.update(frameTime);        
+        tub.update(frameTime);
 
         //----------------------------------------------------------------------------------
 
@@ -45,6 +48,7 @@ std::cout << FACE_ANNOYED << std::endl;
 
             disp.draw();
             weatherman.draw();
+            tub.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
