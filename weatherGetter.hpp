@@ -104,9 +104,12 @@ public:
 
 	void draw()
 	{
-		DrawText("Seattle, WA", 615, 110, 30, A_BLUE_2);
-		DrawText(weather.c_str(), 640, 155, 20, A_BLUE_1);
-		DrawText(temperature.c_str(), 640, 185, 20, A_BLUE_1);
+		DrawText("Seattle, WA", 610, 110, 30, A_BLUE_2);
+		DrawText(weather.c_str(), 630, 155, 20, A_BLUE_1);
+		DrawText(temperature.c_str(), 630, 185, 20, A_BLUE_1);
+		
+		std::string updateStr = "Updated " + std::to_string((int)(lastUpdateTime / 60) + 1) + " mins ago";
+		DrawText(updateStr.c_str(), 630, 210, 10, A_GREEN_2);
 	}
 };
 

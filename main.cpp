@@ -6,7 +6,8 @@
 #include "pyHelper.hpp"
 #include "weatherGetter.hpp"
 #include "colors.h"
-#include "tank.hpp"
+#include "sensor.hpp"
+#include "sensor.hpp"
 
 #include "faces.h"
 
@@ -14,7 +15,8 @@ int main()
 {
     weatherGetter weatherman;
     display disp;
-    tank tub;
+    sensorDisplay tempHumd;
+    dht22Query th;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -36,7 +38,7 @@ int main()
         float frameTime = GetFrameTime();
         disp.update(frameTime);
         weatherman.update(frameTime);        
-        tub.update(frameTime);
+        tempHumd.update(frameTime);
 
         //----------------------------------------------------------------------------------
 
@@ -48,7 +50,7 @@ int main()
 
             disp.draw();
             weatherman.draw();
-            tub.draw();
+            tempHumd.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

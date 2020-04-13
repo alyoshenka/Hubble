@@ -45,7 +45,7 @@ public:
 	{
 		DrawText("HUBBLE", 10, 5, 80, A_PURPLE_3);
 		DrawText(FACE_AT, 320, 320, 160, A_PURPLE_4);
-        DrawText(timeString.c_str(), 640, 10, 40, A_GREEN_2);
+		DrawText(timeString.c_str(), 640, 10, 40, A_GREEN_2);
 	}
 };
 
