@@ -12,7 +12,9 @@ class dht22Query
 	const std::string temp = "temp";
 	const std::string humd = "humd";
 	
-	std::thread query;
+	#if ON_RPI
+		std::thread query;	
+	#endif
 	
 	int get(std::string file) 
 	{
@@ -37,8 +39,12 @@ class dht22Query
 public:
 	void queryData() 
 	{ 
-		query = std::thread(queryThread); 
-		query.detach();
+		#if ON_RPI
+			query = std::thread(queryThread); 
+			query.detach();
+		#else
+			queryThread();
+		#endif
 	}
 	int getTemp() { return get(temp); }		
 	int getHumd() { return get(humd); }

@@ -1,0 +1,1 @@
+$ g++ -Wl, win.cpp -Wall -IE:/raylib/raylib-3/include -LE:/raylib/raylib-3/lib -o win.exe -lraylib

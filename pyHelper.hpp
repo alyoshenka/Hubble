@@ -5,11 +5,16 @@ it is totally 100% copied and in no way mine
 
 // also be sure to set PYTHONPATH to build directory
 
+#include "os.h"
+#if ON_RPI
+	#include <Python.h>
+#else
+	#define DPy_BUILD_CORE_BUILTIN 1
+	#include <Python.h>
+#endif
+
 #ifndef PYHELPER_HPP
 #define PYHELPER_HPP
-#pragma once
-
-#include <Python.h>
 
 class CppPyInstance
 {

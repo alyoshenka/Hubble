@@ -1,7 +1,11 @@
-#include <iostream>
-#include <stdio.h>
+#include "os.h"
 
-#include "/home/jay/raylib/src/raylib.h"
+#if ON_RPI
+    #include "/home/jay/raylib/src/raylib.h"
+#else
+    #include "raylib.h"
+#endif
+
 #include "display.hpp"
 #include "pyHelper.hpp"
 #include "weatherGetter.hpp"
@@ -10,6 +14,8 @@
 #include "sensor.hpp"
 
 #include "faces.h"
+
+#include <iostream>
 
 int main() 
 {
@@ -21,8 +27,6 @@ int main()
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
-
-    HideCursor();
 
     InitWindow(screenWidth, screenHeight, "hubble_v1");
 

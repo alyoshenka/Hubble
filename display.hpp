@@ -1,12 +1,17 @@
 #ifndef DISPLAY_HPP
-#define WDISPLAY_HPP
-#pragma once
+#define DISPLAY_HPP
 
 #pragma warning(disable : 4996)
 #include <ctime>
 #include <string>
 
-#include "/home/jay/raylib/src/raylib.h"
+#include "os.h"
+#if ON_RPI
+    #include "/home/jay/raylib/src/raylib.h"
+#else
+    #include "raylib.h"
+#endif
+
 #include "colors.h"
 #include "faces.h"
 

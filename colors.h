@@ -1,5 +1,10 @@
-#pragma once
-#include "/home/jay/raylib/src/raylib.h"
+#include "os.h"
+
+#if ON_RPI
+    #include "/home/jay/raylib/src/raylib.h"
+#else
+    #include "raylib.h"
+#endif
  
 #define A_BLUE (Color) { 17, 24, 36, 255 }
 #define A_BLUE_1 (Color) { 73, 147, 255, 255 }

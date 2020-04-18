@@ -5,7 +5,13 @@
 #include "pyHelper.hpp"
 #include <iostream>
 
-#include "/home/jay/raylib/src/raylib.h"
+#include "os.h"
+#if ON_RPI
+	#include "/home/jay/raylib/src/raylib.h"
+#else
+	#include "raylib.h"
+#endif
+
 #include "colors.h"
 
 class weatherGetter
@@ -27,6 +33,7 @@ public:
         weatherUpdateTime = 60 * 10;
         updateElapsedTime = lastUpdateTime = 0;
 
+		#if ON_RPI
         pyInstance = new CppPyInstance();
 
 		PyRun_SimpleString("import sys");
@@ -36,6 +43,7 @@ public:
 		pModule = PyImport_Import(pName);
 
 		if (!pModule) { PyErr_Print(); }
+		#endif
 
         getWeather();
         getTemperature();
@@ -48,7 +56,11 @@ public:
 
 	std::string getTemperature()
 	{
-		std::string ret = "temperature";
+		std::string ret = "0";
+		#if not ON_RPI
+		temperature = ret + "°f";
+		return ret;
+		#endif
 
 		CppPyObject pFunc = PyObject_GetAttrString(pModule, "get_temperature");
 		if (pFunc && PyCallable_Check(pFunc))
@@ -71,6 +83,10 @@ public:
 	std::string getWeather()
 	{
 		std::string ret = "weather";
+		#if not ON_RPI
+		weather = ret;
+		return ret;
+		#endif
 
 		CppPyObject pFunc = PyObject_GetAttrString(pModule, "get_weather");
 		if (pFunc)
