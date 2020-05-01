@@ -30,11 +30,11 @@ public:
 
 	weatherGetter()
 	{
-        weatherUpdateTime = 60 * 10;
-        updateElapsedTime = lastUpdateTime = 0;
+		weatherUpdateTime = 60 * 10;
+		updateElapsedTime = lastUpdateTime = 0;
 
-		#if ON_RPI
-        pyInstance = new CppPyInstance();
+	#if ON_RPI
+		pyInstance = new CppPyInstance();
 
 		PyRun_SimpleString("import sys");
 		PyRun_SimpleString("sys.path.append('/home/jay/WeatherPi')");
@@ -43,7 +43,7 @@ public:
 		pModule = PyImport_Import(pName);
 
 		if (!pModule) { PyErr_Print(); }
-		#endif
+	#endif
 
         getWeather();
         getTemperature();
@@ -57,10 +57,10 @@ public:
 	std::string getTemperature()
 	{
 		std::string ret = "0";
-		#if not ON_RPI
+	#if not ON_RPI
 		temperature = ret + "°f";
 		return ret;
-		#endif
+	#endif
 
 		CppPyObject pFunc = PyObject_GetAttrString(pModule, "get_temperature");
 		if (pFunc && PyCallable_Check(pFunc))
@@ -120,12 +120,12 @@ public:
 
 	void draw()
 	{
-		DrawText("Seattle, WA", 610, 110, 30, A_BLUE_2);
-		DrawText(weather.c_str(), 630, 155, 20, A_BLUE_1);
-		DrawText(temperature.c_str(), 630, 185, 20, A_BLUE_1);
+		DrawText("Seattle, WA", 605, 115, 30, A_BLUE_2);
+		DrawText(weather.c_str(), 615, 150, 20, A_BLUE_1);
+		DrawText(temperature.c_str(), 615, 180, 20, A_BLUE_1);
 		
 		std::string updateStr = "Updated " + std::to_string((int)(lastUpdateTime / 60) + 1) + " mins ago";
-		DrawText(updateStr.c_str(), 630, 210, 10, A_GREEN_2);
+		DrawText(updateStr.c_str(), 615, 205, 10, A_GREEN_2);
 	}
 };
 

@@ -1,7 +1,6 @@
 #ifndef DISPLAY_HPP
 #define DISPLAY_HPP
 
-#pragma warning(disable : 4996)
 #include <ctime>
 #include <string>
 
@@ -10,6 +9,7 @@
     #include "/home/jay/raylib/src/raylib.h"
 #else
     #include "raylib.h"
+    #pragma warning(disable : 4996)
 #endif
 
 #include "colors.h"
@@ -40,7 +40,7 @@ enum mood
 
 class display
 {
-    const std::string facesDir = "/thirdparty/sans/";
+    const std::string facesDir = "../thirdparty/sans/";
 
     std::string timeString;
     mood currentMood;
@@ -51,21 +51,31 @@ public:
 	display() 
     { 
         timeString = "time";
-        setMood(happy);
+	facePos.x = facePos.y = 320;
+
+	currentMood = happy;
+	/*
+	std::string num = std::to_string((int)currentMood + 1);
+        std::string fileName = facesDir + "sansf" + num + ".png";
+        std::cout << fileName << std::endl;
+	Image img = LoadImage(fileName.c_str());
+        faceTex = LoadTextureFromImage(img);
+	UnloadImage(img);
+	* */
     }
 
-	~display() { UnloadTexture(faceTex); }
+	~display() { /* UnloadTexture(faceTex); */ }
 
     void setMood(mood newMood)
     {
         currentMood = newMood;
-        UnloadTexture(faceTex);
-        /*
-        std::string fileName = facesDir + "sansf" + std::to_string((int)currentMood + 1) + ".png";
-        std::cerr << fileName << std::endl;
+	/*
+        UnloadTexture(faceTex); 
+	std::string num = std::to_string((int)currentMood + 1);
+        std::string fileName = facesDir + "sansf" + num + ".png";
+        std::cout << fileName << std::endl;
         faceTex = LoadTexture(fileName.c_str());
-        facePos.x = facePos.y = 320;
-        */
+	* */
     }
 	
 	void update(float frameTime)
@@ -88,11 +98,11 @@ public:
 	
 	void draw()
 	{
-		DrawText("HUBBLE", 10, 5, 80, A_PURPLE_3);
-		// DrawText(FACE_AT, 320, 320, 160, A_PURPLE_4);
+		DrawText("HUBBLE", 10, 5, 80, A_BLUE_3);
+		DrawText(FACE_AT, 320, 320, 160, A_BLUE_4);
 		DrawText(timeString.c_str(), 640, 10, 40, A_GREEN_2);
 
-        DrawTexture(faceTex, facePos.x, facePos.y, WHITE);
+		// DrawTexture(faceTex, facePos.x, facePos.y, WHITE);
 	}
 };
 

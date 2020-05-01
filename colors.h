@@ -17,9 +17,3 @@
 #define A_GREEN_2 (Color) { 0, 169, 8, 255 }
 #define A_GREEN_3 (Color) { 0, 34, 17, 255 }
 #define A_GREEN_4 (Color) { 0, 110, 54, 255 }
-
-#define A_PURPLE (Color) { 24, 17, 37, 255 }
-#define A_PURPLE_1 (Color) { 135, 76, 255, 255 }
-#define A_PURPLE_2 (Color) { 54, 0, 165, 255 }
-#define A_PURPLE_3 (Color) { 11, 0, 33, 255 }
-#define A_PURPLE_4 (Color) { 35, 0, 107, 255 }

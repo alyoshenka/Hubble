@@ -6,11 +6,17 @@
 #include <fstream>
 #include <thread>
 
+#include "pyHelper.hpp"
+#include "os.h"
+
 class dht22Query
-{
+{	
 	const std::string command = "particle call Medusa ";
 	const std::string temp = "temp";
 	const std::string humd = "humd";
+	
+	CppPyObject pModule;
+	CppPyInstance* pyInstance;
 	
 	#if ON_RPI
 		std::thread query;	
@@ -37,6 +43,38 @@ class dht22Query
 	static void queryThread() { system("/home/jay/Hubble/query.sh"); }
 	
 public:
+	dht22Query()
+	{
+	#if ON_RPI
+		pyInstance = new CppPyInstance();
+        
+        PyRun_SimpleString("import sys");
+		PyRun_SimpleString("sys.path.append('/home/jay/Hubble')");
+
+		CppPyObject pName = PyUnicode_FromString("runSensor");
+		pModule = PyImport_Import(pName);
+		if (!pModule) { PyErr_Print(); }
+			
+		if (nullptr == pModule) { PyErr_Print(); }	
+		
+		CppPyObject pFunc = PyObject_GetAttrString(pModule, "go");
+		if (pFunc && PyCallable_Check(pFunc))
+		{
+			CppPyObject pValue = PyObject_CallObject(pFunc, NULL);
+			if (pValue)
+			{
+				std::cout << "thing: ";
+				std::string ret = _PyUnicode_AsString(pValue);
+                std::cout << ret << std::endl;
+			}
+			else { PyErr_Print(); }	
+		}
+		else { PyErr_Print(); }	
+	#endif
+	}
+	
+	~dht22Query() { pyInstance = nullptr; }
+	
 	void queryData() 
 	{ 
 		#if ON_RPI
@@ -46,6 +84,7 @@ public:
 			queryThread();
 		#endif
 	}
+	
 	int getTemp() { return get(temp); }		
 	int getHumd() { return get(humd); }
 };
@@ -98,7 +137,7 @@ public:
 			if(tHumd > 0) { humd = tHumd; }
 			if(tTemp > 0 && tHumd > 0) { lastUpdateTime = 0; }
 		}
-		else if(updateElapsedTime > sensorUpdateTime && shouldQuery)
+		else if(updateElapsedTime > sensorUpdateTime && shouldQuery && !ON_RPI)
 		{
 			std::cout << "query" << std::endl;
 			sensor.queryData();
@@ -110,8 +149,8 @@ public:
 	{
 		std::string tStr = std::to_string(temp) + "°f";
 		std::string hStr = std::to_string(humd) + "%";
-		DrawText(tStr.c_str(), 480, 15, 25, A_PURPLE_1);
-		DrawText(hStr.c_str(), 540, 15, 25, A_PURPLE_1);
+		DrawText(tStr.c_str(), 480, 15, 25, A_BLUE_1);
+		DrawText(hStr.c_str(), 540, 15, 25, A_BLUE_1);
 		// DrawRectangleRec(Rectangle{ 590, 15, 25, 25 }, A_PURPLE_2);
 		
 		std::string updateStr = "Updated ";

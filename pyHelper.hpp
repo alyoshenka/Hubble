@@ -7,7 +7,7 @@ it is totally 100% copied and in no way mine
 
 #include "os.h"
 #if ON_RPI
-	#include <Python.h>
+	#include "/usr/include/python3.7/Python.h"
 #else
 	#define DPy_BUILD_CORE_BUILTIN 1
 	#include <Python.h>

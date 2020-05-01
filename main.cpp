@@ -22,7 +22,6 @@ int main()
     weatherGetter weatherman;
     display disp;
     sensorDisplay tempHumd;
-    dht22Query th;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
