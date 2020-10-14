@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(Hubble)
 
 option(PLATFORM PLATFORMM_RPI)
+# option(OPENGL_VERSION OPENGL_VERSION_OFF)
 
 find_package(raylib 2.5.0 REQUIRED)
 find_package(Threads REQUIRED)

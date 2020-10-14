@@ -20,7 +20,6 @@
 int main() 
 {
     weatherGetter weatherman;
-    display disp;
     sensorDisplay tempHumd;
 
     //--------------------------------------------------------------------------------------
@@ -28,6 +27,8 @@ int main()
     const int screenHeight = 480;
 
     InitWindow(screenWidth, screenHeight, "hubble_v1");
+    
+    display disp(screenWidth, screenHeight);
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
