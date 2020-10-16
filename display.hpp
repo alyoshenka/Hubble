@@ -40,7 +40,7 @@ enum mood
 
 class display
 {
-	// bad form
+    // hardcoded to work on startup
     const std::string facesDir = "/home/jay/Hubble/thirdparty/sans/";
 
     std::string timeString;
@@ -91,6 +91,9 @@ public:
 		timeString += std::to_string(m) + ":";
 		if (s < 10) { timeString += "0"; }
 		timeString += std::to_string(s);
+		
+		if(IsKeyPressed(KEY_W)){setMood(wink);}
+		if(IsKeyPressed(KEY_H)){setMood(happy);}
 	}
 	
 	void draw()

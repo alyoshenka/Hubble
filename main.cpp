@@ -12,6 +12,7 @@
 #include "colors.h"
 #include "sensor.hpp"
 #include "sensor.hpp"
+#include "commandListener.h"
 
 #include "faces.h"
 
@@ -21,6 +22,7 @@ int main()
 {
     weatherGetter weatherman;
     sensorDisplay tempHumd;
+    commandListener listener;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -43,6 +45,7 @@ int main()
         disp.update(frameTime);
         weatherman.update(frameTime);        
         tempHumd.update(frameTime);
+        listener.listen();
 
         //----------------------------------------------------------------------------------
 
@@ -55,6 +58,9 @@ int main()
             disp.draw();
             weatherman.draw();
             tempHumd.draw();
+            
+            // string msg = listener.getMessage();
+            // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
 
         EndDrawing();
         //----------------------------------------------------------------------------------
