@@ -1,3 +1,0 @@
-class dht22Query
-{
-};

@@ -8,33 +8,34 @@
 
 #include "display.h"
 #include "pyHelper.hpp"
-#include "weatherGetter.hpp"
+#include "weatherGetter.h"
 #include "colors.h"
-#include "sensor.hpp"
-#include "sensor.hpp"
-
+#include "sensor.h"
 #include "commandListener.h"
 #include "commandManager.h"
-
 #include "faces.h"
+#include "internetSpeed.h"
 
 #include <iostream>
 
+
 int main() 
 {
-    weatherGetter weatherman;
-    sensorDisplay tempHumd;
-    commandListener listener;
-
+    
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
 
-    InitWindow(screenWidth, screenHeight, "hubble_v1");
+    InitWindow(screenWidth, screenHeight, "hubble_v1.1");
     
+    weatherGetter weatherman;
+    sensorDisplay tempHumd;
+    commandListener listener;
     display d(screenWidth, screenHeight);
     display* disp = &d;
     commandManager comManager(disp);
+    internetSpeed iSpeed;
+    
     listener.sendListener();
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -50,6 +51,7 @@ int main()
         disp->update(frameTime);
         weatherman.update(frameTime);        
         tempHumd.update(frameTime);
+        iSpeed.update(frameTime);
         listener.listen();
         if(listener.newMessage()){
             comManager.parseCommand(listener.getMessage());
@@ -66,6 +68,7 @@ int main()
             disp->draw();
             weatherman.draw();
             tempHumd.draw();
+            iSpeed.draw();
             
             // string msg = listener.getMessage();
             // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
