@@ -4,8 +4,6 @@ commandListener::commandListener() {
 
      // rw-rw-rw
      mkfifo(sharedPipe, 0666);
-     
-     sendListener();
 }
 
 void commandListener::listen(){
@@ -20,6 +18,7 @@ void commandListener::listen(){
         // message
         string msg = fut.get();
         std::cout << "CommandCenter: " << msg << std::endl;
+        
         // respond
         int fd = open(sharedPipe, O_WRONLY);
         string res = "you sent " + msg;
@@ -38,6 +37,7 @@ string getInput(int maxLen, const char* pName){
     // read
     int fd = open(pName, O_RDONLY);
     read(fd, &msg, maxLen);
+    close(fd);
     
     return string(msg);
 }
@@ -45,7 +45,14 @@ string getInput(int maxLen, const char* pName){
 void commandListener::sendListener(){
     printf("Sending listener\n");
     // magic number bad
-    fut = std::async(std::launch::async, getInput, 128, sharedPipe);
+    fut = std::async(std::launch::async, getInput, 80, sharedPipe);
+}
+
+void commandListener::stopListener(){
+    int fd = open(sharedPipe, O_WRONLY);
+    char* res = "closing graphics";
+    write(fd, res, strlen(res) + 1);
+    close(fd);
 }
 
 

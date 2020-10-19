@@ -21,7 +21,7 @@ using namespace std::chrono_literals;
 
 class commandListener{
     const char* sharedPipe = "/tmp/sharedPipe";
-    const static int maxLen = 128;
+    const static int maxLen = 80;
     
     std::future<string> fut;
     
@@ -31,5 +31,6 @@ public:
     commandListener();
     void listen();
     void sendListener();
+    void stopListener();
 };
 

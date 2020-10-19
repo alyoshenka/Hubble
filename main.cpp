@@ -31,6 +31,7 @@ int main()
     InitWindow(screenWidth, screenHeight, "hubble_v1");
     
     display disp(screenWidth, screenHeight);
+    listener.sendListener();
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -68,6 +69,7 @@ int main()
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+    listener.stopListener();
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
