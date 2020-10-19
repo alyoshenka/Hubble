@@ -6,13 +6,15 @@
     #include "raylib.h"
 #endif
 
-#include "display.hpp"
+#include "display.h"
 #include "pyHelper.hpp"
 #include "weatherGetter.hpp"
 #include "colors.h"
 #include "sensor.hpp"
 #include "sensor.hpp"
+
 #include "commandListener.h"
+#include "commandManager.h"
 
 #include "faces.h"
 
@@ -30,7 +32,9 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "hubble_v1");
     
-    display disp(screenWidth, screenHeight);
+    display d(screenWidth, screenHeight);
+    display* disp = &d;
+    commandManager comManager(disp);
     listener.sendListener();
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -43,10 +47,13 @@ int main()
         //----------------------------------------------------------------------------------
         
         float frameTime = GetFrameTime();
-        disp.update(frameTime);
+        disp->update(frameTime);
         weatherman.update(frameTime);        
         tempHumd.update(frameTime);
         listener.listen();
+        if(listener.newMessage()){
+            comManager.parseCommand(listener.getMessage());
+        }
 
         //----------------------------------------------------------------------------------
 
@@ -56,7 +63,7 @@ int main()
 
             ClearBackground(A_BLUE);
 
-            disp.draw();
+            disp->draw();
             weatherman.draw();
             tempHumd.draw();
             

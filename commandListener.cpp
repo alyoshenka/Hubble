@@ -4,6 +4,8 @@ commandListener::commandListener() {
 
      // rw-rw-rw
      mkfifo(sharedPipe, 0666);
+     
+     newM = false;
 }
 
 void commandListener::listen(){
@@ -25,6 +27,9 @@ void commandListener::listen(){
         strcpy(writeStr, res.c_str());
         write(fd, writeStr, strlen(writeStr) + 1);
         close(fd);
+        
+        newM = true;
+        currentMessage = msg;
         
         sendListener();
     } catch(const std::future_error& e){
@@ -55,4 +60,11 @@ void commandListener::stopListener(){
     close(fd);
 }
 
+string commandListener::getMessage(){
+    newM = false;
+    return currentMessage;
+}
 
+bool commandListener::newMessage(){
+    return newM;
+}

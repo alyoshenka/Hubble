@@ -26,11 +26,15 @@ class commandListener{
     std::future<string> fut;
     
     char writeStr[maxLen];
+    bool newM;
+    string currentMessage;
     
 public:
     commandListener();
     void listen();
     void sendListener();
     void stopListener();
+    string getMessage();
+    bool newMessage();
 };
 
