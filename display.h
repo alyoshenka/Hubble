@@ -78,5 +78,6 @@ public:
 	void setMood(int newMood);	
 	void update(float frameTime);
 	void draw();
+	void drawLayoutDebug();
 };
 

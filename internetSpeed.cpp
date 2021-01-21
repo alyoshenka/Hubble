@@ -93,12 +93,14 @@ void internetSpeed::update(float dt){
 }
 
 void internetSpeed::draw(){	
-	DrawText("Dwn:", 345, 15, 15, A_GREEN_2);
-	DrawText("Up:", 345, 45, 15, A_GREEN_2);
-	DrawText(dStr.c_str(), 380, 15, 25, A_BLUE_1);
-	DrawText(uStr.c_str(), 380, 45, 25, A_BLUE_1);
-	DrawText("Mbits/s", 450, 25, 10, A_GREEN_1);
-	DrawText("Mbits/s", 430, 55, 10, A_GREEN_1);
+	DrawText("DWN:", 405, 405, 20, A_GREEN_2);
+	DrawText("UP:", 260, 405, 20, A_GREEN_2);
+	
+	DrawText(dStr.c_str(), 460, 415, 40, A_BLUE_1);
+	DrawText(uStr.c_str(), 300, 415, 40, A_BLUE_1);
+	
+	DrawText("Mbps", 460, 455, 15, A_GREEN_1);
+	DrawText("Mbps", 300, 455, 15, A_GREEN_1);
 }
 
 void internetSpeed::setStr(){

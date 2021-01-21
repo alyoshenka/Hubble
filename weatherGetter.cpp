@@ -92,11 +92,11 @@ void weatherGetter::update(float frameTime)
 
 void weatherGetter::draw()
 {
-	DrawText("Seattle, WA", 605, 115, 30, A_BLUE_2);
-	DrawText(weather.c_str(), 615, 150, 20, A_BLUE_1);
-	DrawText(temperature.c_str(), 615, 180, 20, A_BLUE_1);
+	DrawText("Seattle, WA", 605, 15, 30, A_BLUE_2);
+	DrawText(weather.c_str(), 615, 50, 20, A_BLUE_1);
+	DrawText(temperature.c_str(), 615, 80, 20, A_BLUE_1);
 	
-	std::string updateStr = "Updated " + std::to_string((int)(lastUpdateTime / 60) + 1) + " mins ago";
-	DrawText(updateStr.c_str(), 615, 205, 10, A_GREEN_2);
+	// std::string updateStr = "Updated " + std::to_string((int)(lastUpdateTime / 60) + 1) + " mins ago";
+	// DrawText(updateStr.c_str(), 615, 105, 10, A_GREEN_2);
 }
 

@@ -26,7 +26,7 @@ int main()
     const int screenWidth = 800;
     const int screenHeight = 480;
 
-    InitWindow(screenWidth, screenHeight, "hubble_v1.1");
+    InitWindow(screenWidth, screenHeight, "hubble_v2.1");
     
     weatherGetter weatherman;
     sensorDisplay tempHumd;

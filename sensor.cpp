@@ -106,15 +106,17 @@ void sensorDisplay::update(float frameTime)
 
 void sensorDisplay::draw()
 {
+	DrawText("Photon", 610, 115, 30, A_BLUE_2);
+	
 	std::string tStr = std::to_string(temp) + "°f";
 	std::string hStr = std::to_string(humd) + "%";
-	DrawText(tStr.c_str(), 500, 15, 25, A_BLUE_1);
-	DrawText(hStr.c_str(), 560, 15, 25, A_BLUE_1);
+	DrawText(tStr.c_str(), 620, 150, 25, A_BLUE_1);
+	DrawText(hStr.c_str(), 690, 150, 25, A_BLUE_1);
 	// DrawRectangleRec(Rectangle{ 590, 15, 25, 25 }, A_PURPLE_2);
 	
 	std::string updateStr = "Updated ";
 	int mins = lastUpdateTime / 60 + 1;
 	updateStr += std::to_string(mins) + " mins ago";
 	
-	DrawText(updateStr.c_str(), 500, 45, 10, A_GREEN_2);
+	// DrawText(updateStr.c_str(), 500, 45, 10, A_GREEN_2);
 }

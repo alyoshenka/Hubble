@@ -5,8 +5,8 @@
 display::display(int w, int h) 
 { 
 	timeString = "time";
-	faceSize = 200;
-	faceBorder = 15;
+	faceBorder = 10;
+	faceSize = 200 - faceBorder * 2;
 	facePos.x = w - faceSize - faceBorder;
 	facePos.y = h - faceSize - faceBorder;	
 
@@ -71,11 +71,27 @@ void display::update(float frameTime)
 
 void display::draw()
 {
-	DrawText("HUBBLE", 10, 5, 80, A_BLUE_3);
+	DrawText("HUBBLE", 10, 10, 70, A_BLUE_3);
 	// DrawText(FACE_AT, 320, 320, 160, A_BLUE_4);
-	DrawText(timeString.c_str(), 640, 10, 40, A_GREEN_2);
+	DrawText(timeString.c_str(), 10, 410, 60, A_GREEN_2);
 
 	DrawTexture(faceTex, facePos.x, facePos.y, WHITE);
+	
+	// drawLayoutDebug();
+}
+
+void display::drawLayoutDebug()
+{
+	// hubble
+	DrawRectangleLines(0, 0, 300, 80, WHITE);
+	// alert icons
+	DrawRectangleLines(300, 0, 300, 80, WHITE);
+	// temp data
+	DrawRectangleLines(600, 0, 200, 280, WHITE);
+	// face
+	DrawRectangleLines(600, 280, 200, 200, WHITE);
+	// time & speed
+	DrawRectangleLines(0, 400, 600, 80, WHITE);
 }
 
 
