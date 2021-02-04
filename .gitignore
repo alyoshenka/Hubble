@@ -1,6 +1,7 @@
 build/*
 *.txt
 !CmakeLists.txt
+CmakeFiles/
 
 # thirdparty/python37embed/*
 
