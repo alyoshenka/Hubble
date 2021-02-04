@@ -1,1 +1,0 @@
-<filter object at 0x7516f410>

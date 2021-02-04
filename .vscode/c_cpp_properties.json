@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "C:/Users/asus/Desktop/thirdparty/raylib/3.5.0/x86/include/**",
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/include/**"
             ],
             "defines": [
                 "_DEBUG",

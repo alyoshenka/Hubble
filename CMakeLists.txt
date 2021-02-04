@@ -53,8 +53,9 @@ if (WIN32)
     message("raylib_dir: ${RAYLIB_DIR}")
     message("raylib_inc: ${RAYLIB_INCLUDE_DIR}")
 
-    file(GLOB hubble_src "*.h" "*.cpp") #BAD
+    file(GLOB hubble_src "include/*.h" "src/*.cpp" "main.cpp") #BAD
     add_executable(HubbleExe ${hubble_src})
+    target_include_directories(HubbleExe PRIVATE include)
 
     set_property(TARGET HubbleExe PROPERTY CXX_STANDARD 17) 
     get_target_property(cxx_standard_version HubbleExe CXX_STANDARD)
