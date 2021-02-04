@@ -4,12 +4,12 @@
 #include <string>
 #include <algorithm>
 
-#include "os.h"
+#include "config.h"
 #if ON_RPI
-    #include "/home/jay/raylib/src/raylib.h"
+#include "/home/jay/raylib/src/raylib.h"
 #else
-    #include "raylib.h"
-    #pragma warning(disable : 4996)
+#include "raylib.h"
+#pragma warning(disable : 4996)
 #endif
 
 #include "colors.h"
@@ -18,7 +18,6 @@
 #include <iostream>
 
 using std::string;
-
 
 enum mood
 {
@@ -41,23 +40,22 @@ enum mood
 };
 
 const string stringMood[16] = {
-	"happy", 
-	"posessed",
-	"soulless",
-	"lookEyeDown",
-	"lookEyeUp",
-	"wink",
-	"veryNervous",
-	"nervous",
-	"peaceful",
-	"sad",
-	"vengeful",
-	"scared",
-	"dying",
-	"pissed",
-	"amused",
-	"gone"
-};
+    "happy",
+    "posessed",
+    "soulless",
+    "lookEyeDown",
+    "lookEyeUp",
+    "wink",
+    "veryNervous",
+    "nervous",
+    "peaceful",
+    "sad",
+    "vengeful",
+    "scared",
+    "dying",
+    "pissed",
+    "amused",
+    "gone"};
 
 class display
 {
@@ -71,13 +69,12 @@ class display
     int faceSize, faceBorder;
 
 public:
-	display(int w, int h) ;
-	~display();
-	void setMood(mood newMood);
-	void setMood(string newMood);	
-	void setMood(int newMood);	
-	void update(float frameTime);
-	void draw();
-	void drawLayoutDebug();
+    display(int w, int h);
+    ~display();
+    void setMood(mood newMood);
+    void setMood(string newMood);
+    void setMood(int newMood);
+    void update(float frameTime);
+    void draw();
+    void drawLayoutDebug();
 };
-

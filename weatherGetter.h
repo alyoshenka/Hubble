@@ -3,29 +3,30 @@
 #include "pyHelper.hpp"
 #include <iostream>
 
-#include "os.h"
+#include "config.h"
 #if ON_RPI
-	#include "/home/jay/raylib/src/raylib.h"
+#include "/home/jay/raylib/src/raylib.h"
 #else
-	#include "raylib.h"
+#include "raylib.h"
 #endif
 
 #include "colors.h"
 
 class weatherGetter
 {
+#if ON_RPI
 	CppPyObject pModule;
-	CppPyInstance* pyInstance;
-    
-    float weatherUpdateTime;
-    float updateElapsedTime;
-    float lastUpdateTime;
+	CppPyInstance *pyInstance;
+#endif
 
-    std::string weather;
-    std::string temperature;
+	float weatherUpdateTime;
+	float updateElapsedTime;
+	float lastUpdateTime;
+
+	std::string weather;
+	std::string temperature;
 
 public:
-
 	weatherGetter();
 	~weatherGetter();
 	std::string getTemperature();

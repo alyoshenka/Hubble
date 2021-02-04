@@ -1,6 +1,8 @@
 build/*
+*.txt
+!CmakeLists.txt
 
-thirdparty/python37embed/*
+# thirdparty/python37embed/*
 
 # Prerequisites
 *.d
