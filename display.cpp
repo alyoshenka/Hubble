@@ -4,7 +4,7 @@
 
 display::display(int w, int h, errorDisplay* errorDisp) 
 { 
-	fnt = GetDefaultFont();
+	fnt = GetFontDefault();
 	eDisp = errorDisp;
 	timeString = "time";
 	faceBorder = 10;
@@ -78,8 +78,8 @@ void display::draw()
 {
 	DrawText("HUBBLE", 10, 10, 70, A_BLUE_3);
 	// DrawText(FACE_AT, 320, 320, 160, A_BLUE_4);
-	// DrawText(timeString.c_str(), 10, 410, 60, A_GREEN_2);
-	DrawTexRec(fnt, timeString.c_str(), {10, 410, 60, 280}, 60, 1, false, A_GREEN_2);
+	DrawText(timeString.c_str(), 10, 410, 60, A_GREEN_2);
+	// DrawTextRec(fnt, timeString.c_str(), {10, 410, 60, 280}, 60, 1, false, A_GREEN_2); // seg fault
 
 	DrawTexture(faceTex, facePos.x, facePos.y, WHITE);
 	

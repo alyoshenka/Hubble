@@ -12,6 +12,7 @@ weatherGetter::weatherGetter(errorDisplay* errDisp)
 std::string weatherGetter::getTemperature()
 {
 	std::string ret = "0";
+	return ret;
 #if not ON_RPI
 	temperature = ret + "°f";
 	return ret;
@@ -36,8 +37,9 @@ std::string weatherGetter::getTemperature()
 }
 
 std::string weatherGetter::getWeather()
-{
+{		
 	std::string ret = "weather";
+	return ret;
 	#if not ON_RPI
 		weather = ret;
 		return ret;
@@ -68,7 +70,6 @@ void weatherGetter::update(float dt)
 			if(std::future_status::ready == s){
 				fut.get();
 				
-				std::cout << "recieved new weather data" << std::endl;
 				eDisp->addErrString("recieved new weather data");
 			}
 		}
@@ -90,8 +91,7 @@ void weatherGetter::updateViaThread(){
 	eDisp->addErrString("sending speedtest async update");
 	
 	fut = std::async(std::launch::async, [this]{
-		this->testUp();
-		this->testDown();
+		this->getWeather();
 	});
 }
 

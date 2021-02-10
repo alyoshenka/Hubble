@@ -29,18 +29,19 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
     
-    errorDisplay* errorDisp = new errorDisplay();
-    weatherGetter weatherman(errorDisp);
-    sensorDisplay tempHumd(errorDisp);
-    commandListener listener(errorDisp);
-    display d(screenWidth, screenHeight, errorDisp);
-    display* disp = &d;
-    commandManager comManager(disp, errorDisp);
-    internetSpeed iSpeed(errorDisp);
+    errorDisplay* errorDisp = new errorDisplay();  
+    weatherGetter weatherman(errorDisp); 
+    sensorDisplay tempHumd(errorDisp); 
+    commandListener listener(errorDisp); 
+    display d(screenWidth, screenHeight, errorDisp); 
+    display* disp = &d; 
+    commandManager comManager(disp, errorDisp); 
+    internetSpeed iSpeed(errorDisp); 
     
     
-    listener.sendListener();
-
+    listener.sendListener(); std::cout << "sl" << std::endl;
+    
+    
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
@@ -64,8 +65,10 @@ int main()
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        
 
+        BeginDrawing();
+    
             ClearBackground(A_BLUE);
 
             disp->draw();
