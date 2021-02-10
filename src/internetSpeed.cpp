@@ -42,7 +42,7 @@ float internetSpeed::getFloatFromSpeed(const string line)
 	int i = l.find_first_of(' ');
 	l = l.substr(i + 1);
 	i = l.find_first_of(' ');
-	l = l.substr(0, i);
+	l = l.substr(0, i); 
 
 	return std::stof(l);
 }
