@@ -64,26 +64,16 @@ class display
     const std::string facesDir = "/home/jay/Hubble/thirdparty/sans/";
 
     Font fnt;
-    
+
     std::string timeString;
     mood currentMood;
     Texture2D faceTex;
     Vector2 facePos;
     int faceSize, faceBorder;
-    errorDisplay* eDisp;
+    errorDisplay *eDisp;
 
 public:
-<<<<<<< HEAD:display.h
-	display(int w, int h, errorDisplay* errorDisp) ;
-	~display();
-	void setMood(mood newMood);
-	void setMood(string newMood);	
-	void setMood(int newMood);	
-	void update(float frameTime);
-	void draw();
-	void drawLayoutDebug();
-=======
-    display(int w, int h);
+    display(int w, int h, errorDisplay *errorDisp);
     ~display();
     void setMood(mood newMood);
     void setMood(string newMood);
@@ -91,5 +81,4 @@ public:
     void update(float frameTime);
     void draw();
     void drawLayoutDebug();
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:include/display.h
 };
