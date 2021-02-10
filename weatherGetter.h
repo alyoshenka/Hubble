@@ -1,7 +1,11 @@
 #pragma once
 
-#include "pyHelper.hpp"
+#include <string>
+#include <iomanip>
+#include <sstream>
 #include <iostream>
+#include <future>
+#include <chrono>
 
 #include "os.h"
 #if ON_RPI
@@ -11,25 +15,33 @@
 #endif
 
 #include "colors.h"
+#include "errorDisplay.h"
+
+#define WEATHERPI "weatherpi"
+#define WEATHER " weather"
+#define TEMPERATURE " temperature"
+
+#using std::string;
 
 class weatherGetter
-{
-	CppPyObject pModule;
-	CppPyInstance* pyInstance;
+{	
+	errorDisplay* eDisp;
+	
+	std::future<void> fut;
     
-    float weatherUpdateTime;
-    float updateElapsedTime;
-    float lastUpdateTime;
+    float updateTime, updateElapsed;
 
-    std::string weather;
-    std::string temperature;
+    string weather;
+    string temperature;
+    
+    void updateViaThread();
 
 public:
 
-	weatherGetter();
-	~weatherGetter();
-	std::string getTemperature();
-	std::string getWeather();
+	weatherGetter(errorDisplay* errDisp);
+
+	string getTemperature();
+	string getWeather();
 	void update(float frameTime);
 	void draw();
 };

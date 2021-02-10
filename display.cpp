@@ -2,8 +2,10 @@
 
 
 
-display::display(int w, int h) 
+display::display(int w, int h, errorDisplay* errorDisp) 
 { 
+	fnt = GetDefaultFont();
+	eDisp = errorDisp;
 	timeString = "time";
 	faceBorder = 10;
 	faceSize = 200 - faceBorder * 2;
@@ -17,7 +19,8 @@ display::~display() { UnloadTexture(faceTex); }
 
 void display::setMood(mood newMood)
 {
-	std::cout << "Setting mood: " << stringMood[int(newMood)] << std::endl;
+	// std::cout << "Setting mood: " << stringMood[int(newMood)] << std::endl;
+	eDisp->addErrString("Setting mood: " + stringMood[int(newMood)]);
 	currentMood = newMood;
 	UnloadTexture(faceTex); 
 	std::string num = std::to_string((int)currentMood + 1);
@@ -37,12 +40,14 @@ void display::setMood(string newMood){
 			return;
 		}
 	}
-	std::cout << "No mood matches " << newMood << std::endl;
+	// std::cout << "No mood matches " << newMood << std::endl;
+	eDisp->addErrString("No mood matches " + newMood);
 }
 
 void display::setMood(int newMood){
 	if(newMood > 15){
-		std::cout << "No mood matches " << std::to_string(newMood) << std::endl;
+		// std::cout << "No mood matches " << std::to_string(newMood) << std::endl;
+		eDisp->addErrString("No mood matches " + std::to_string(newMood));
 	} else {
 		setMood((mood)newMood);
 	}
@@ -73,7 +78,8 @@ void display::draw()
 {
 	DrawText("HUBBLE", 10, 10, 70, A_BLUE_3);
 	// DrawText(FACE_AT, 320, 320, 160, A_BLUE_4);
-	DrawText(timeString.c_str(), 10, 410, 60, A_GREEN_2);
+	// DrawText(timeString.c_str(), 10, 410, 60, A_GREEN_2);
+	DrawTexRec(fnt, timeString.c_str(), {10, 410, 60, 280}, 60, 1, false, A_GREEN_2);
 
 	DrawTexture(faceTex, facePos.x, facePos.y, WHITE);
 	
@@ -92,6 +98,8 @@ void display::drawLayoutDebug()
 	DrawRectangleLines(600, 280, 200, 200, WHITE);
 	// time & speed
 	DrawRectangleLines(0, 400, 600, 80, WHITE);
+	// error display
+	DrawRectangleLines(30, 90, 540, 290, WHITE);
 }
 
 

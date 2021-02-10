@@ -14,6 +14,8 @@
 #include <chrono>
 #include <iostream>
 
+#include "errorDisplay.h"
+
 using std::string;
 using std::thread;
 
@@ -28,9 +30,10 @@ class commandListener{
     char writeStr[maxLen];
     bool newM;
     string currentMessage;
+    errorDisplay* eDisp;
     
 public:
-    commandListener();
+    commandListener(errorDisplay* errorDisp);
     void listen();
     void sendListener();
     void stopListener();

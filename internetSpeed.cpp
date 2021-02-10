@@ -1,6 +1,9 @@
 #include "internetSpeed.h"
 
-internetSpeed::internetSpeed() { 
+internetSpeed::internetSpeed(errorDisplay* errDisp) { 
+	eDisp = errDisp;
+	fnt = GetFontDefault();
+	
 	down = 199.99; 
 	up = 9.99;
 	updateTime = updateElapsed = 60 * 10; // 10 min
@@ -12,7 +15,9 @@ string internetSpeed::getCommand(string cmd){
 	string res = "";
 	FILE * stream = popen(cmd.c_str(), "r");
 	if(!stream){
+		eDisp->addErrString("popen failed");
 		std::cerr << "popen failed" << std::endl;
+		
 		return "";
 	}
 	
@@ -63,6 +68,8 @@ float internetSpeed::getDown(){ return down; }
 
 void internetSpeed::updateViaThread(){
 	std::cout << "sending speed test async update" << std::endl;
+	eDisp->addErrString("sending speedtest async update");
+	
 	fut = std::async(std::launch::async, [this]{
 		this->testUp();
 		this->testDown();
@@ -77,11 +84,14 @@ void internetSpeed::update(float dt){
 			if(std::future_status::ready == s){
 				fut.get();
 				setStr();
+				
 				std::cout << "recieved new speed data" << std::endl;
+				eDisp->addErrString("recieved new speed data");
 			}
 		}
 		catch(const std::future_error& e){
 			std::cerr << "future error: " << e.code() << std::endl;
+			eDisp->addErrString("future error");
 		}
 	}	
 	
@@ -93,7 +103,8 @@ void internetSpeed::update(float dt){
 }
 
 void internetSpeed::draw(){	
-	DrawText("DWN:", 405, 405, 20, A_GREEN_2);
+	//DrawText("DWN:", 405, 405, 20, A_GREEN_2);
+	DrawTextRec(fnt, "DWN:", {405, 405, 50, 30}, 20, 1, false, A_GREEN_2);
 	DrawText("UP:", 260, 405, 20, A_GREEN_2);
 	
 	DrawText(dStr.c_str(), 460, 415, 40, A_BLUE_1);

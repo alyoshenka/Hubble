@@ -6,6 +6,7 @@
 
 #include "pyHelper.hpp"
 #include "os.h"
+#include "errorDisplay.h"
 
 class dht22Query
 {	
@@ -24,6 +25,8 @@ class dht22Query
 	static void queryThread();
 	
 public:
+	errorDisplay* eDisp;
+	
 	dht22Query();	
 	~dht22Query();	
 	void queryData();	
@@ -38,18 +41,20 @@ public:
 
 class sensorDisplay
 {
+	errorDisplay* eDisp;
+	
 	float sensorUpdateTime;
 	float displayUpdateTime;
-    float updateElapsedTime;
-    float lastUpdateTime;
-    bool shouldQuery;
+	float updateElapsedTime;
+	float lastUpdateTime;
+	bool shouldQuery;
     
-    int temp, humd;
+	int temp, humd;
     
-    dht22Query sensor;
+	dht22Query sensor;
     
 public:
-	sensorDisplay();	
+	sensorDisplay(errorDisplay* errDisp);	
 	~sensorDisplay();
 	void update(float frameTime);
 	void draw();

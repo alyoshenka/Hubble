@@ -1,7 +1,6 @@
 #include "sensor.h"
 
 
-
 int dht22Query::get(std::string file) 
 {
 	std::fstream outFile;
@@ -10,7 +9,9 @@ int dht22Query::get(std::string file)
 	
 	std::string line;
 	getline(outFile, line);
+	
 	std::cout << "read: " << line << std::endl;
+	eDisp->addErrString("read: " + line);
 	try
 	{
 		int ret = std::stoi(line);
@@ -44,6 +45,8 @@ dht22Query::dht22Query(){
 			std::cout << "thing: ";
 			std::string ret = _PyUnicode_AsString(pValue);
 			std::cout << ret << std::endl;
+			
+			// if(nullptr != eDisp) { eDisp->addErrString("thing: " + ret);}
 		}
 		else { PyErr_Print(); }	
 	}
@@ -51,7 +54,10 @@ dht22Query::dht22Query(){
 #endif
 }
 
-dht22Query::~dht22Query() { pyInstance = nullptr; }
+dht22Query::~dht22Query() { 
+	pyInstance = nullptr; 
+	eDisp = nullptr;
+}
 
 void dht22Query::queryData() 
 { 
@@ -67,8 +73,11 @@ int dht22Query::getTemp() { return get(temp); }
 int dht22Query::getHumd() { return get(humd); }
 
 
-sensorDisplay::sensorDisplay()
+sensorDisplay::sensorDisplay(errorDisplay* errDisp)
 {
+	eDisp = errDisp;
+	sensor.eDisp = errDisp;	
+	
 	temp = humd = 99;
 	
 	sensorUpdateTime = 60 * 10;
@@ -88,6 +97,8 @@ void sensorDisplay::update(float frameTime)
 	if(updateElapsedTime > displayUpdateTime)
 	{
 		std::cout << "update" << std::endl;
+		eDisp->addErrString("update sensor display");
+		
 		updateElapsedTime = 0;
 		shouldQuery = true;
 		int tTemp = sensor.getTemp();
@@ -96,9 +107,11 @@ void sensorDisplay::update(float frameTime)
 		if(tHumd > 0) { humd = tHumd; }
 		if(tTemp > 0 && tHumd > 0) { lastUpdateTime = 0; }
 	}
-	else if(updateElapsedTime > sensorUpdateTime && shouldQuery && !ON_RPI)
+	else if(updateElapsedTime > sensorUpdateTime && shouldQuery && ON_RPI)
 	{
 		std::cout << "query" << std::endl;
+		eDisp->addErrString("query sensor");
+		
 		sensor.queryData();
 		shouldQuery = false;
 	}

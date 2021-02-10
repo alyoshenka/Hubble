@@ -1,29 +1,12 @@
 #include "weatherGetter.h"
 
-weatherGetter::weatherGetter()
+weatherGetter::weatherGetter(errorDisplay* errDisp)
 {
+	eDisp = errDisp;
 	weatherUpdateTime = 60 * 10;
-	updateElapsedTime = lastUpdateTime = 0;
-
-#if ON_RPI
-	pyInstance = new CppPyInstance();
-
-	PyRun_SimpleString("import sys");
-	PyRun_SimpleString("sys.path.append('/home/jay/WeatherPi')");
-
-	CppPyObject pName = PyUnicode_FromString("weather");
-	pModule = PyImport_Import(pName);
-
-	if (!pModule) { PyErr_Print(); }
-#endif
 
 	getWeather();
 	getTemperature();
-}
-
-weatherGetter::~weatherGetter()
-{
-	pyInstance = nullptr;
 }
 
 std::string weatherGetter::getTemperature()
@@ -77,17 +60,39 @@ std::string weatherGetter::getWeather()
 	return ret;
 }
 
-void weatherGetter::update(float frameTime)
+void weatherGetter::update(float dt)
 {
-	updateElapsedTime += frameTime;
-	lastUpdateTime += frameTime;
-
-	if (updateElapsedTime > weatherUpdateTime)
-	{
-		updateElapsedTime = 0;
-		getWeather();
-		getTemperature();
+	if(fut.valid()){
+		try{
+			std::future_status s = fut.wait_for(0ms);
+			if(std::future_status::ready == s){
+				fut.get();
+				
+				std::cout << "recieved new weather data" << std::endl;
+				eDisp->addErrString("recieved new weather data");
+			}
+		}
+		catch(const std::future_error& e){
+			std::cerr << "future error: " << e.code() << std::endl;
+			eDisp->addErrString("future error");
+		}
+	}	
+	
+	updateElapsed += dt;
+	if(updateElapsed >= updateTime) { 
+		updateElapsed = 0;
+		updateViaThread(); 
 	}
+}
+
+void weatherGetter::updateViaThread(){
+	std::cout << "sending speed test async update" << std::endl;
+	eDisp->addErrString("sending speedtest async update");
+	
+	fut = std::async(std::launch::async, [this]{
+		this->testUp();
+		this->testDown();
+	});
 }
 
 void weatherGetter::draw()

@@ -14,6 +14,7 @@
 
 #include "colors.h"
 #include "faces.h"
+#include "errorDisplay.h"
 
 #include <iostream>
 
@@ -64,14 +65,17 @@ class display
     // hardcoded to work on startup
     const std::string facesDir = "/home/jay/Hubble/thirdparty/sans/";
 
+    Font fnt;
+    
     std::string timeString;
     mood currentMood;
     Texture2D faceTex;
     Vector2 facePos;
     int faceSize, faceBorder;
+    errorDisplay* eDisp;
 
 public:
-	display(int w, int h) ;
+	display(int w, int h, errorDisplay* errorDisp) ;
 	~display();
 	void setMood(mood newMood);
 	void setMood(string newMood);	

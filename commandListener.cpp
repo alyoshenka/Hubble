@@ -1,11 +1,13 @@
 #include "commandListener.h"
 
-commandListener::commandListener() {
+commandListener::commandListener(errorDisplay* errorDisp) {
 
      // rw-rw-rw
      mkfifo(sharedPipe, 0666);
      
      newM = false;
+     
+     eDisp = errorDisp;
 }
 
 void commandListener::listen(){
@@ -13,13 +15,18 @@ void commandListener::listen(){
         std::future_status status = fut.wait_for(0ms);
         if(std::future_status::ready != status) { return; }
         if(!fut.valid()){
+            
             printf("fut not valid\n");
+            eDisp->addErrString("fut not valid");
+            
             return;
         }
 
         // message
         string msg = fut.get();
+        
         std::cout << "CommandCenter: " << msg << std::endl;
+        eDisp->addErrString("CommandCenter: " + msg);
         
         // respond
         int fd = open(sharedPipe, O_WRONLY);
@@ -33,7 +40,9 @@ void commandListener::listen(){
         
         sendListener();
     } catch(const std::future_error& e){
+        
         printf("future error %i\n", e.code());
+        eDisp->addErrString("future error");
     }
 } 
 
@@ -49,6 +58,8 @@ string getInput(int maxLen, const char* pName){
 
 void commandListener::sendListener(){
     printf("Sending listener\n");
+    eDisp->addErrString("Sending listener");
+    
     // magic number bad
     fut = std::async(std::launch::async, getInput, 80, sharedPipe);
 }

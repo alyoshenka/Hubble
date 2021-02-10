@@ -1,7 +1,8 @@
 #include "commandManager.h"
 
-commandManager::commandManager(display* d){
+commandManager::commandManager(display* d, errorDisplay* errDisp){
 	dsp = d;
+	eDisp = errDisp;
 }
 
 void commandManager::parseCommand(string line){
@@ -15,7 +16,7 @@ void commandManager::parseCommand(string line){
 	if(com.compare("mood") == 0){moodCommand(line);}
 }
 
-void commandManager::moodCommand(string m){
+void commandManager::moodCommand(string m){	
 	std::cout << "m: |" << m << "|" << std::endl;
 	dsp->setMood(m);
 }

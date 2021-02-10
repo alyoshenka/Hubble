@@ -15,6 +15,7 @@
 #include "commandManager.h"
 #include "faces.h"
 #include "internetSpeed.h"
+#include "errorDisplay.h"
 
 #include <iostream>
 
@@ -28,13 +29,15 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
     
-    weatherGetter weatherman;
-    sensorDisplay tempHumd;
-    commandListener listener;
-    display d(screenWidth, screenHeight);
+    errorDisplay* errorDisp = new errorDisplay();
+    weatherGetter weatherman(errorDisp);
+    sensorDisplay tempHumd(errorDisp);
+    commandListener listener(errorDisp);
+    display d(screenWidth, screenHeight, errorDisp);
     display* disp = &d;
-    commandManager comManager(disp);
-    internetSpeed iSpeed;
+    commandManager comManager(disp, errorDisp);
+    internetSpeed iSpeed(errorDisp);
+    
     
     listener.sendListener();
 
@@ -69,6 +72,7 @@ int main()
             weatherman.draw();
             tempHumd.draw();
             iSpeed.draw();
+            errorDisp->draw();
             
             // string msg = listener.getMessage();
             // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
@@ -80,6 +84,7 @@ int main()
     // De-Initialization
     //--------------------------------------------------------------------------------------
     listener.stopListener();
+    delete errorDisp;  
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
