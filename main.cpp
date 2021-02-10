@@ -16,10 +16,18 @@
 #include "faces.h"
 #include "internetSpeed.h"
 
+#include "testHubbleObject.h"
+#include "ho_internetSpeed.h"
+#include "ho_weatherGetter.h"
+
 #include <iostream>
 
 int main()
 {
+    testHubbleObject tho;
+    ho_internetSpeed ho_is;
+    ho_weatherGetter ho_wg;
+
     std::cout << "boop" << std::endl;
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -57,6 +65,10 @@ int main()
             comManager.parseCommand(listener.getMessage());
         }
 
+        tho.update(frameTime);
+        ho_is.update(frameTime);
+        ho_wg.update(frameTime);
+
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -64,6 +76,14 @@ int main()
         BeginDrawing();
 
         ClearBackground(A_BLUE);
+
+        disp->drawLayoutDebug();
+
+        tho.drawDebug();
+        ho_is.drawDebug();
+        ho_is.draw();
+        ho_wg.drawDebug();
+        ho_wg.draw();
 
         disp->draw();
         weatherman.draw();
