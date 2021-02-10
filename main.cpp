@@ -15,6 +15,7 @@
 #include "commandManager.h"
 #include "faces.h"
 #include "internetSpeed.h"
+#include "errorDisplay.h"
 
 #include "testHubbleObject.h"
 #include "ho_internetSpeed.h"
@@ -34,6 +35,23 @@ int main()
     const int screenHeight = 480;
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
+<<<<<<< HEAD
+    
+    errorDisplay* errorDisp = new errorDisplay();  
+    weatherGetter weatherman(errorDisp); 
+    sensorDisplay tempHumd(errorDisp); 
+    commandListener listener(errorDisp); 
+    display d(screenWidth, screenHeight, errorDisp); 
+    display* disp = &d; 
+    commandManager comManager(disp, errorDisp); 
+    internetSpeed iSpeed(errorDisp); 
+    
+    
+    listener.sendListener(); std::cout << "sl" << std::endl;
+    
+    
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+=======
 
     weatherGetter weatherman;
     sensorDisplay tempHumd;
@@ -46,6 +64,7 @@ int main()
     listener.sendListener();
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -73,8 +92,22 @@ int main()
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        
 
+<<<<<<< HEAD
+        BeginDrawing();
+    
+            ClearBackground(A_BLUE);
+
+            disp->draw();
+            weatherman.draw();
+            tempHumd.draw();
+            iSpeed.draw();
+            errorDisp->draw();
+            
+            // string msg = listener.getMessage();
+            // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
+=======
         ClearBackground(A_BLUE);
 
         disp->drawLayoutDebug();
@@ -92,6 +125,7 @@ int main()
 
         // string msg = listener.getMessage();
         // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -100,7 +134,12 @@ int main()
     // De-Initialization
     //--------------------------------------------------------------------------------------
     listener.stopListener();
+<<<<<<< HEAD
+    delete errorDisp;  
+    CloseWindow();        // Close window and OpenGL context
+=======
     CloseWindow(); // Close window and OpenGL context
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c
     //--------------------------------------------------------------------------------------
 
     return 0;

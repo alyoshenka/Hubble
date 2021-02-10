@@ -18,6 +18,8 @@
 #include <unistd.h>
 #endif
 
+#include "errorDisplay.h"
+
 using std::string;
 #if ON_RPI
 using std::thread;
@@ -37,9 +39,14 @@ class commandListener
     char writeStr[maxLen];
     bool newM;
     string currentMessage;
+<<<<<<< HEAD:commandListener.h
+    errorDisplay* eDisp;
+    
+=======
 
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:include/commandListener.h
 public:
-    commandListener();
+    commandListener(errorDisplay* errorDisp);
     void listen();
     void sendListener();
     void stopListener();

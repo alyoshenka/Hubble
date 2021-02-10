@@ -6,20 +6,8 @@
         {
             "label": "build debug",
             "type": "process",
-            "command": "make",
-            "args": [
-                "PLATFORM=PLATFORM_DESKTOP",
-                "BUILD_MODE=DEBUG"
-            ],
             "windows": {
-                "command": "C:/raylib/mingw/bin/mingw32-make.exe",
-                "args": [
-                    "RAYLIB_PATH=C:/raylib/raylib",
-                    "PROJECT_NAME=Hubble",
-                    "OBJS=${workspaceFolder}/main.cpp",
-                    "BUILD_MODE=DEBUG",
-                    "-D CMAKE_CXX_COMPILER=g++-9.2"
-                ],
+                "command": "cmds/windows/build.bat"
             },
             "group": {
                 "kind": "build",
@@ -48,6 +36,11 @@
             "problemMatcher": [
                 "$gcc"
             ]
+        },
+        {
+            "label": "build and run",
+            "type": "shell",
+            "command": "${workspaceFolder}/cmds/windows/go.bat"
         }
     ]
 }

@@ -1,8 +1,16 @@
 #include "internetSpeed.h"
 
+<<<<<<< HEAD:internetSpeed.cpp
+internetSpeed::internetSpeed(errorDisplay* errDisp) { 
+	eDisp = errDisp;
+	fnt = GetFontDefault();
+	
+	down = 199.99; 
+=======
 internetSpeed::internetSpeed()
 {
 	down = 199.99;
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/internetSpeed.cpp
 	up = 9.99;
 	updateTime = updateElapsed = 60 * 10; // 10 min
 	setStr();
@@ -13,10 +21,17 @@ string internetSpeed::getCommand(string cmd)
 #if ON_RPI
 	char buffer[128];
 	string res = "";
+<<<<<<< HEAD:internetSpeed.cpp
+	FILE * stream = popen(cmd.c_str(), "r");
+	if(!stream){
+		eDisp->addErrString("popen failed");
+=======
 	FILE *stream = popen(cmd.c_str(), "r");
 	if (!stream)
 	{
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/internetSpeed.cpp
 		std::cerr << "popen failed" << std::endl;
+		
 		return "";
 	}
 
@@ -79,7 +94,13 @@ void internetSpeed::updateViaThread()
 {
 #if ON_RPI
 	std::cout << "sending speed test async update" << std::endl;
+<<<<<<< HEAD:internetSpeed.cpp
+	eDisp->addErrString("sending speedtest async update");
+	
+	fut = std::async(std::launch::async, [this]{
+=======
 	fut = std::async(std::launch::async, [this] {
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/internetSpeed.cpp
 		this->testUp();
 		this->testDown();
 	});
@@ -99,12 +120,15 @@ void internetSpeed::update(float dt)
 			{
 				fut.get();
 				setStr();
+				
 				std::cout << "recieved new speed data" << std::endl;
+				eDisp->addErrString("recieved new speed data");
 			}
 		}
 		catch (const std::future_error &e)
 		{
 			std::cerr << "future error: " << e.code() << std::endl;
+			eDisp->addErrString("future error");
 		}
 	}
 #endif
@@ -117,9 +141,15 @@ void internetSpeed::update(float dt)
 	}
 }
 
+<<<<<<< HEAD:internetSpeed.cpp
+void internetSpeed::draw(){	
+	//DrawText("DWN:", 405, 405, 20, A_GREEN_2);
+	DrawTextRec(fnt, "DWN:", {405, 405, 50, 30}, 20, 1, false, A_GREEN_2);
+=======
 void internetSpeed::draw()
 {
 	DrawText("DWN:", 405, 405, 20, A_GREEN_2);
+>>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/internetSpeed.cpp
 	DrawText("UP:", 260, 405, 20, A_GREEN_2);
 
 	DrawText(dStr.c_str(), 460, 415, 40, A_BLUE_1);
