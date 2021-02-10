@@ -1,16 +1,6 @@
 #include "commandListener.h"
 
-<<<<<<< HEAD:commandListener.cpp
-commandListener::commandListener(errorDisplay* errorDisp) {
-
-     // rw-rw-rw
-     mkfifo(sharedPipe, 0666);
-     
-     newM = false;
-     
-     eDisp = errorDisp;
-=======
-commandListener::commandListener()
+commandListener::commandListener(errorDisplay *errorDisp)
 {
 
 // rw-rw-rw
@@ -19,7 +9,6 @@ commandListener::commandListener()
 #endif
 
     newM = false;
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/commandListener.cpp
 }
 
 void commandListener::listen()
@@ -28,34 +17,25 @@ void commandListener::listen()
     try
     {
         std::future_status status = fut.wait_for(0ms);
-<<<<<<< HEAD:commandListener.cpp
-        if(std::future_status::ready != status) { return; }
-        if(!fut.valid()){
-            
-=======
         if (std::future_status::ready != status)
         {
             return;
         }
         if (!fut.valid())
         {
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/commandListener.cpp
+
             printf("fut not valid\n");
             eDisp->addErrString("fut not valid");
-            
+
             return;
         }
 
         // message
         string msg = fut.get();
-        
-        std::cout << "CommandCenter: " << msg << std::endl;
-<<<<<<< HEAD:commandListener.cpp
-        eDisp->addErrString("CommandCenter: " + msg);
-        
-=======
 
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/commandListener.cpp
+        std::cout << "CommandCenter: " << msg << std::endl;
+        eDisp->addErrString("CommandCenter: " + msg);
+
         // respond
         int fd = open(sharedPipe, O_WRONLY);
         string res = "you sent " + msg;
@@ -67,14 +47,10 @@ void commandListener::listen()
         currentMessage = msg;
 
         sendListener();
-<<<<<<< HEAD:commandListener.cpp
-    } catch(const std::future_error& e){
-        
-=======
     }
     catch (const std::future_error &e)
     {
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/commandListener.cpp
+
         printf("future error %i\n", e.code());
         eDisp->addErrString("future error");
     }
@@ -98,12 +74,8 @@ string getInput(int maxLen, const char *pName)
 void commandListener::sendListener()
 {
     printf("Sending listener\n");
-<<<<<<< HEAD:commandListener.cpp
     eDisp->addErrString("Sending listener");
-    
-=======
 #if ON_RPI
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/commandListener.cpp
     // magic number bad
     fut = std::async(std::launch::async, getInput, 80, sharedPipe);
 #endif

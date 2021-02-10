@@ -1,11 +1,6 @@
 #include "sensor.h"
 
-<<<<<<< HEAD:sensor.cpp
-
-int dht22Query::get(std::string file) 
-=======
 int dht22Query::get(std::string file)
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/sensor.cpp
 {
 #if ON_RPI
 	std::fstream outFile;
@@ -17,8 +12,7 @@ int dht22Query::get(std::string file)
 
 	std::string line;
 	getline(outFile, line);
-	
-	std::cout << "read: " << line << std::endl;
+
 	eDisp->addErrString("read: " + line);
 	try
 	{
@@ -65,7 +59,7 @@ dht22Query::dht22Query()
 			std::cout << "thing: ";
 			std::string ret = _PyUnicode_AsString(pValue);
 			std::cout << ret << std::endl;
-			
+
 			// if(nullptr != eDisp) { eDisp->addErrString("thing: " + ret);}
 		}
 		else
@@ -80,17 +74,12 @@ dht22Query::dht22Query()
 #endif
 }
 
-<<<<<<< HEAD:sensor.cpp
-dht22Query::~dht22Query() { 
-	pyInstance = nullptr; 
-	eDisp = nullptr;
-=======
 dht22Query::~dht22Query()
 {
 #if ON_RPI
 	pyInstance = nullptr;
 #endif
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/sensor.cpp
+	eDisp = nullptr;
 }
 
 void dht22Query::queryData()
@@ -106,16 +95,11 @@ void dht22Query::queryData()
 int dht22Query::getTemp() { return get(temp); }
 int dht22Query::getHumd() { return get(humd); }
 
-<<<<<<< HEAD:sensor.cpp
-
-sensorDisplay::sensorDisplay(errorDisplay* errDisp)
-=======
-sensorDisplay::sensorDisplay()
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/sensor.cpp
+sensorDisplay::sensorDisplay(errorDisplay *errDisp)
 {
 	eDisp = errDisp;
-	sensor.eDisp = errDisp;	
-	
+	sensor.eDisp = errDisp;
+
 	temp = humd = 99;
 
 	sensorUpdateTime = 60 * 10;
@@ -134,9 +118,8 @@ void sensorDisplay::update(float frameTime)
 	lastUpdateTime += frameTime;
 	if (updateElapsedTime > displayUpdateTime)
 	{
-		std::cout << "update" << std::endl;
 		eDisp->addErrString("update sensor display");
-		
+
 		updateElapsedTime = 0;
 		shouldQuery = true;
 		int tTemp = sensor.getTemp();
@@ -154,15 +137,10 @@ void sensorDisplay::update(float frameTime)
 			lastUpdateTime = 0;
 		}
 	}
-<<<<<<< HEAD:sensor.cpp
-	else if(updateElapsedTime > sensorUpdateTime && shouldQuery && ON_RPI)
-=======
-	else if (updateElapsedTime > sensorUpdateTime && shouldQuery && !ON_RPI)
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:src/sensor.cpp
+	else if (updateElapsedTime > sensorUpdateTime && shouldQuery && ON_RPI)
 	{
-		std::cout << "query" << std::endl;
 		eDisp->addErrString("query sensor");
-		
+
 		sensor.queryData();
 		shouldQuery = false;
 	}

@@ -29,42 +29,28 @@ int main()
     ho_internetSpeed ho_is;
     ho_weatherGetter ho_wg;
 
-    std::cout << "boop" << std::endl;
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
-<<<<<<< HEAD
-    
-    errorDisplay* errorDisp = new errorDisplay();  
-    weatherGetter weatherman(errorDisp); 
-    sensorDisplay tempHumd(errorDisp); 
-    commandListener listener(errorDisp); 
-    display d(screenWidth, screenHeight, errorDisp); 
-    display* disp = &d; 
-    commandManager comManager(disp, errorDisp); 
-    internetSpeed iSpeed(errorDisp); 
-    
-    
-    listener.sendListener(); std::cout << "sl" << std::endl;
-    
-    
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-=======
 
-    weatherGetter weatherman;
-    sensorDisplay tempHumd;
-    commandListener listener;
-    display d(screenWidth, screenHeight);
+    errorDisplay *errorDisp = new errorDisplay();
+    weatherGetter weatherman(errorDisp);
+    sensorDisplay tempHumd(errorDisp);
+#if ON_RPI
+    commandListener listener(errorDisp);
+    commandManager comManager(disp, errorDisp);
+#endif
+    display d(screenWidth, screenHeight, errorDisp);
     display *disp = &d;
-    commandManager comManager(disp);
-    internetSpeed iSpeed;
+    internetSpeed iSpeed(errorDisp);
 
+#if ON_RPI
     listener.sendListener();
+#endif
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -72,17 +58,18 @@ int main()
     {
         // Update
         //----------------------------------------------------------------------------------
-
         float frameTime = GetFrameTime();
         disp->update(frameTime);
         weatherman.update(frameTime);
         tempHumd.update(frameTime);
         iSpeed.update(frameTime);
+#if ON_RPI
         listener.listen();
         if (listener.newMessage())
         {
             comManager.parseCommand(listener.getMessage());
         }
+#endif
 
         tho.update(frameTime);
         ho_is.update(frameTime);
@@ -92,24 +79,10 @@ int main()
 
         // Draw
         //----------------------------------------------------------------------------------
-        
 
-<<<<<<< HEAD
-        BeginDrawing();
-    
-            ClearBackground(A_BLUE);
-
-            disp->draw();
-            weatherman.draw();
-            tempHumd.draw();
-            iSpeed.draw();
-            errorDisp->draw();
-            
-            // string msg = listener.getMessage();
-            // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
-=======
         ClearBackground(A_BLUE);
 
+        errorDisp->draw();
         disp->drawLayoutDebug();
 
         tho.drawDebug();
@@ -125,21 +98,18 @@ int main()
 
         // string msg = listener.getMessage();
         // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c
 
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
+// De-Initialization
+//--------------------------------------------------------------------------------------
+#if ON_RPI
     listener.stopListener();
-<<<<<<< HEAD
-    delete errorDisp;  
-    CloseWindow();        // Close window and OpenGL context
-=======
+#endif
+    delete errorDisp;
     CloseWindow(); // Close window and OpenGL context
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c
     //--------------------------------------------------------------------------------------
 
     return 0;

@@ -3,7 +3,8 @@
 weatherGetter::weatherGetter(errorDisplay *errDisp)
 {
 	eDisp = errDisp;
-	weatherUpdateTime = 60 * 10;
+	updateTime = 60 * 10;
+	updateElapsed = 0;
 
 	getWeather();
 	getTemperature();
@@ -84,6 +85,7 @@ std::string weatherGetter::getWeather()
 
 void weatherGetter::update(float dt)
 {
+#if ON_RPI
 	if (fut.valid())
 	{
 		try
@@ -102,6 +104,7 @@ void weatherGetter::update(float dt)
 			eDisp->addErrString("future error");
 		}
 	}
+#endif
 
 	updateElapsed += dt;
 	if (updateElapsed >= updateTime)
@@ -113,12 +116,13 @@ void weatherGetter::update(float dt)
 
 void weatherGetter::updateViaThread()
 {
-	std::cout << "sending speed test async update" << std::endl;
 	eDisp->addErrString("sending speedtest async update");
 
+#if ON_RPI
 	fut = std::async(std::launch::async, [this] {
 		this->getWeather();
 	});
+#endif
 }
 
 void weatherGetter::draw()

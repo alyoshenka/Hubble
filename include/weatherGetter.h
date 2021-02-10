@@ -30,15 +30,11 @@ class weatherGetter
 #if ON_RPI
 	CppPyObject pModule;
 	CppPyInstance *pyInstance;
-#endif
-
-	float weatherUpdateTime;
-	float updateElapsedTime;
-	float lastUpdateTime;
-
-	errorDisplay *eDisp;
 
 	std::future<void> fut;
+#endif
+
+	errorDisplay *eDisp;
 
 	float updateTime, updateElapsed;
 
@@ -47,9 +43,7 @@ class weatherGetter
 
 	void updateViaThread();
 
-	std::string weather;
-	std::string temperature;
-
+public:
 	weatherGetter(errorDisplay *errDisp);
 
 	string getTemperature();

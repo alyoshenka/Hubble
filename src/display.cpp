@@ -1,6 +1,6 @@
 #include "display.h"
 
-display::display(int w, int h)
+display::display(int w, int h, errorDisplay *errorDisp)
 {
 	timeString = "time";
 	faceBorder = 10;
@@ -8,7 +8,9 @@ display::display(int w, int h)
 	facePos.x = w - faceSize - faceBorder;
 	facePos.y = h - faceSize - faceBorder;
 
+#if ON_RPI
 	setMood(happy);
+#endif
 }
 
 display::~display() { UnloadTexture(faceTex); }
@@ -32,7 +34,7 @@ void display::setMood(string newMood)
 	// optimize, no MNs
 	for (int i = 0; i < 16; i++)
 	{
-		std::cout << stringMood[i] << "=" << newMood << std::endl;
+		// std::cout << stringMood[i] << "=" << newMood << std::endl;
 		if (stringMood[i].compare(newMood) == 0)
 		{
 			setMood(i);
@@ -47,7 +49,7 @@ void display::setMood(int newMood)
 {
 	if (newMood > 15)
 	{
-		std::cout << "No mood matches " << std::to_string(newMood) << std::endl;
+		eDisp->addErrString("No mood matches " + newMood);
 	}
 	else
 	{

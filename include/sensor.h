@@ -5,12 +5,8 @@
 #include <thread>
 
 #include "pyHelper.hpp"
-<<<<<<< HEAD:sensor.h
-#include "os.h"
-#include "errorDisplay.h"
-=======
 #include "config.h"
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:include/sensor.h
+#include "errorDisplay.h"
 
 class dht22Query
 {
@@ -31,19 +27,12 @@ class dht22Query
 	static void queryThread();
 
 public:
-<<<<<<< HEAD:sensor.h
-	errorDisplay* eDisp;
-	
-	dht22Query();	
-	~dht22Query();	
-	void queryData();	
-	int getTemp();	
-=======
+	errorDisplay *eDisp;
+
 	dht22Query();
 	~dht22Query();
 	void queryData();
 	int getTemp();
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:include/sensor.h
 	int getHumd();
 };
 
@@ -52,30 +41,20 @@ public:
 
 class sensorDisplay
 {
-	errorDisplay* eDisp;
-	
+	errorDisplay *eDisp;
+
 	float sensorUpdateTime;
 	float displayUpdateTime;
 	float updateElapsedTime;
 	float lastUpdateTime;
 	bool shouldQuery;
-<<<<<<< HEAD:sensor.h
-    
-	int temp, humd;
-    
-	dht22Query sensor;
-    
-public:
-	sensorDisplay(errorDisplay* errDisp);	
-=======
 
 	int temp, humd;
 
 	dht22Query sensor;
 
 public:
-	sensorDisplay();
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:include/sensor.h
+	sensorDisplay(errorDisplay *errDisp);
 	~sensorDisplay();
 	void update(float frameTime);
 	void draw();

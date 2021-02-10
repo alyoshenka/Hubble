@@ -39,14 +39,10 @@ class commandListener
     char writeStr[maxLen];
     bool newM;
     string currentMessage;
-<<<<<<< HEAD:commandListener.h
-    errorDisplay* eDisp;
-    
-=======
+    errorDisplay *eDisp;
 
->>>>>>> 7a245092389d4584eb22bd111eea983d92eac42c:include/commandListener.h
 public:
-    commandListener(errorDisplay* errorDisp);
+    commandListener(errorDisplay *errorDisp);
     void listen();
     void sendListener();
     void stopListener();
