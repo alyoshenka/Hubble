@@ -1,6 +1,11 @@
 build/*
+*.txt
+!CmakeLists.txt
+CmakeFiles/
+thirdparty/sans/**
+thirdparty/raylib/**
 
-thirdparty/python37embed/*
+# thirdparty/python37embed/*
 
 # Prerequisites
 *.d

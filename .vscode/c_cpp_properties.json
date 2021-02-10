@@ -3,9 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:/raylib/src/**",
-                "${workspaceFolder}/**",
-                "C:/Users/alexi/AppData/Local/Programs/Python/Python37/include"
+                "C:/Users/asus/Desktop/thirdparty/raylib/3.5.0/x86/include/**",
+                "${workspaceFolder}/include/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -17,7 +16,7 @@
             "compilerPath": "C:/raylib/mingw/bin/gcc.exe",
             "cStandard": "c99",
             "cppStandard": "c++14",
-            "intelliSenseMode": "clang-x64"
+            "intelliSenseMode": "gcc-x64"
         },
         {
             "name": "Mac",
@@ -57,7 +56,6 @@
             "cStandard": "c11",
             "cppStandard": "c++14",
             "intelliSenseMode": "clang-x64"
-
         }
     ],
     "version": 4

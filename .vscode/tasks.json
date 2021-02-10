@@ -14,13 +14,11 @@
             "windows": {
                 "command": "C:/raylib/mingw/bin/mingw32-make.exe",
                 "args": [
-                    "RAYLIB_PATH=C:/raylib",
-                    "PROJECT_NAME=${fileBasenameNoExtension}",
-                ],
-            },
-            "osx": {
-                "args": [
-                    "RAYLIB_PATH=<path_to_raylib>/raylib"
+                    "RAYLIB_PATH=C:/raylib/raylib",
+                    "PROJECT_NAME=Hubble",
+                    "OBJS=${workspaceFolder}/main.cpp",
+                    "BUILD_MODE=DEBUG",
+                    "-D CMAKE_CXX_COMPILER=g++-9.2"
                 ],
             },
             "group": {
@@ -41,13 +39,9 @@
             "windows": {
                 "command": "C:/raylib/mingw/bin/mingw32-make.exe",
                 "args": [
-                    "RAYLIB_PATH=C:/raylib",
+                    "RAYLIB_PATH=C:/raylib/raylib",
                     "PROJECT_NAME=${fileBasenameNoExtension}",
-                ],
-            },
-            "osx": {
-                "args": [
-                    "RAYLIB_PATH=<path_to_raylib>/raylib",
+                    "OBJS=${fileBasenameNoExtension}.cpp"
                 ],
             },
             "group": "build",
