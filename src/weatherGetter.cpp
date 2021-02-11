@@ -19,31 +19,6 @@ std::string weatherGetter::getTemperature()
 	return ret;
 #endif
 
-#if ON_RPI
-	CppPyObject pFunc = PyObject_GetAttrString(pModule, "get_temperature");
-	if (pFunc && PyCallable_Check(pFunc))
-	{
-		CppPyObject pValue = PyObject_CallObject(pFunc, NULL);
-		if (pValue)
-		{
-			ret = _PyUnicode_AsString(pValue);
-			ret = ret.substr(0, 2) + "°f";
-			temperature = ret;
-			lastUpdateTime = 0;
-		}
-		else
-		{
-			PyErr_Print();
-		}
-	}
-	else
-	{
-		PyErr_Print();
-	}
-
-	return ret;
-#endif
-
 	return ret;
 }
 
@@ -53,30 +28,6 @@ std::string weatherGetter::getWeather()
 	return ret;
 #if not ON_RPI
 	weather = ret;
-	return ret;
-#endif
-
-#if ON_RPI
-	CppPyObject pFunc = PyObject_GetAttrString(pModule, "get_weather");
-	if (pFunc)
-	{
-		CppPyObject pValue = PyObject_CallObject(pFunc, NULL);
-		if (pValue)
-		{
-			ret = _PyUnicode_AsString(pValue);
-			weather = ret;
-			lastUpdateTime = 0;
-		}
-		else
-		{
-			PyErr_Print();
-		}
-	}
-	else
-	{
-		PyErr_Print();
-	}
-
 	return ret;
 #endif
 

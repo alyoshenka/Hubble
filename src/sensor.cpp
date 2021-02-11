@@ -32,53 +32,11 @@ void dht22Query::queryThread() { system("/home/jay/Hubble/query.sh"); }
 
 dht22Query::dht22Query()
 {
-#if ON_RPI
-	pyInstance = new CppPyInstance();
-
-	PyRun_SimpleString("import sys");
-	PyRun_SimpleString("sys.path.append('/home/jay/Hubble')");
-
-	CppPyObject pName = PyUnicode_FromString("runSensor");
-	pModule = PyImport_Import(pName);
-	if (!pModule)
-	{
-		PyErr_Print();
-	}
-
-	if (nullptr == pModule)
-	{
-		PyErr_Print();
-	}
-
-	CppPyObject pFunc = PyObject_GetAttrString(pModule, "go");
-	if (pFunc && PyCallable_Check(pFunc))
-	{
-		CppPyObject pValue = PyObject_CallObject(pFunc, NULL);
-		if (pValue)
-		{
-			std::cout << "thing: ";
-			std::string ret = _PyUnicode_AsString(pValue);
-			std::cout << ret << std::endl;
-
-			// if(nullptr != eDisp) { eDisp->addErrString("thing: " + ret);}
-		}
-		else
-		{
-			PyErr_Print();
-		}
-	}
-	else
-	{
-		PyErr_Print();
-	}
-#endif
+	// python calls
 }
 
 dht22Query::~dht22Query()
 {
-#if ON_RPI
-	pyInstance = nullptr;
-#endif
 	eDisp = nullptr;
 }
 

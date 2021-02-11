@@ -7,7 +7,6 @@
 #endif
 
 #include "display.h"
-#include "pyHelper.hpp"
 #include "weatherGetter.h"
 #include "colors.h"
 #include "sensor.h"
@@ -25,6 +24,7 @@
 
 int main()
 {
+    std::cout << "starting" << std::endl;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -40,8 +40,8 @@ int main()
     display *disp = &d;
     internetSpeed iSpeed(errorDisp);
 #if ON_RPI
-    commandListener listener(errorDisp);
-    commandManager comManager(disp, errorDisp);
+    // commandListener listener(errorDisp);
+    // commandManager comManager(disp, errorDisp);
 #endif
 
     // testHubbleObject tho(errorDisp);
@@ -49,7 +49,7 @@ int main()
     ho_weatherGetter ho_wg(errorDisp);
 
 #if ON_RPI
-    listener.sendListener();
+    // listener.sendListener();
 #endif
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
@@ -66,11 +66,13 @@ int main()
         tempHumd.update(frameTime);
         iSpeed.update(frameTime);
 #if ON_RPI
+/*
         listener.listen();
         if (listener.newMessage())
         {
             comManager.parseCommand(listener.getMessage());
         }
+        * */
 #endif
 
         // tho.update(frameTime);
@@ -108,7 +110,7 @@ int main()
 // De-Initialization
 //--------------------------------------------------------------------------------------
 #if ON_RPI
-    listener.stopListener();
+    // listener.stopListener();
 #endif
     delete errorDisp;
     CloseWindow(); // Close window and OpenGL context

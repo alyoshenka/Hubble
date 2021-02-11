@@ -1,10 +1,16 @@
 
 
-if (LINUX)
+if (UNIX)
+    message("LINUX detected")
     cmake_minimum_required(VERSION 3.13)
-    project(Hubble)
+    project(
+        Hubble 
+        VERSION 2.2 
+        DESCRIPTION "Hubble 2.2"
+        LANGUAGES CXX C
+    )
 
-    file(GLOB hubble_src "*.h" "*.cpp")
+    file(GLOB hubble_src "include/*.h" "src/*.cpp" "main.cpp")
     option(PLATFORM PLATFORM_RPI)
     # option(OPENGL_VERSION OPENGL_VERSION_OFF)
 
@@ -12,20 +18,19 @@ if (LINUX)
     find_package(Threads REQUIRED)
     find_package(X11 REQUIRED)
 
-    find_package(PythonLibs REQUIRED)
-    include_directories(${PYTHON_INCLUDE_DIRS})
 
     set(CMAKE_C_STANDARD 11)
 
     add_executable(Hubble ${hubble_src})
 
-    target_link_libraries(Hubble raylib Threads::Threads X11 ${PYTHON_LIBRARIES})
+    target_include_directories(Hubble PRIVATE include)
+    target_link_libraries(Hubble raylib Threads::Threads X11)
 
-endif (LINUX)
+endif (UNIX)
 
 if (WIN32)
     message(NOTICE "WIN32 detected")
-    cmake_minimum_required(VERSION 3.15)
+    cmake_minimum_required(VERSION 3.13)
     project(
         Hubble 
         VERSION 2.2 

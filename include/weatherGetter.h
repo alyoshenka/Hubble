@@ -10,7 +10,6 @@
 #include "config.h"
 #if ON_RPI
 #include "/home/jay/raylib/src/raylib.h"
-#include "pyHelper.hpp"
 using namespace std::chrono_literals;
 #else
 #include "raylib.h"
@@ -28,9 +27,6 @@ using std::string;
 class weatherGetter
 {
 #if ON_RPI
-	CppPyObject pModule;
-	CppPyInstance *pyInstance;
-
 	std::future<void> fut;
 #endif
 
@@ -38,7 +34,7 @@ class weatherGetter
 
 	float updateTime, updateElapsed;
 
-	string weather;
+	string weather;	
 	string temperature;
 
 	void updateViaThread();

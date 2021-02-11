@@ -4,7 +4,7 @@
 cd /home/jay/Hubble/
 
 mkdir build
-cd build && cmake ..
+cd build && cmake /home/jay/Hubble
 cmake --build . 
 
-./Hubble
+/home/jay/Hubble/build/Hubble

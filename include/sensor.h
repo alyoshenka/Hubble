@@ -4,7 +4,6 @@
 #include <fstream>
 #include <thread>
 
-#include "pyHelper.hpp"
 #include "config.h"
 #include "errorDisplay.h"
 
@@ -13,11 +12,6 @@ class dht22Query
 	const std::string command = "particle call Medusa";
 	const std::string temp = "temp";
 	const std::string humd = "humd";
-
-#if ON_RPI
-	CppPyObject pModule;
-	CppPyInstance *pyInstance;
-#endif
 
 #if ON_RPI
 	std::thread query;

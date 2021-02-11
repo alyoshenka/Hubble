@@ -7,9 +7,13 @@
 
 #include "commands.h"
 
-#include <iostream>
-#include <string>
+#include <future> // std::future
+#include <chrono> // chrono literals
+#include <iostream> // output
+#include <string> // string
+
 using std::string;
+using namespace std::chrono_literals;
 
 // displays data from a peripheral
 class hubbleObject : public peripheral, public displayBlock
