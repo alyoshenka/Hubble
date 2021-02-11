@@ -6,7 +6,7 @@ class ho_weatherGetter : public hubbleObject
     string temp;
 
 public:
-    ho_weatherGetter();
+    ho_weatherGetter(errorDisplay *ed);
     ~ho_weatherGetter();
 
     void draw();

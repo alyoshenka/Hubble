@@ -25,9 +25,6 @@
 
 int main()
 {
-    testHubbleObject tho;
-    ho_internetSpeed ho_is;
-    ho_weatherGetter ho_wg;
 
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -36,15 +33,20 @@ int main()
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
 
     errorDisplay *errorDisp = new errorDisplay();
+
     weatherGetter weatherman(errorDisp);
     sensorDisplay tempHumd(errorDisp);
+    display d(screenWidth, screenHeight, errorDisp);
+    display *disp = &d;
+    internetSpeed iSpeed(errorDisp);
 #if ON_RPI
     commandListener listener(errorDisp);
     commandManager comManager(disp, errorDisp);
 #endif
-    display d(screenWidth, screenHeight, errorDisp);
-    display *disp = &d;
-    internetSpeed iSpeed(errorDisp);
+
+    // testHubbleObject tho(errorDisp);
+    ho_internetSpeed ho_is(errorDisp);
+    ho_weatherGetter ho_wg(errorDisp);
 
 #if ON_RPI
     listener.sendListener();
@@ -71,7 +73,7 @@ int main()
         }
 #endif
 
-        tho.update(frameTime);
+        // tho.update(frameTime);
         ho_is.update(frameTime);
         ho_wg.update(frameTime);
 
@@ -85,7 +87,7 @@ int main()
         errorDisp->draw();
         disp->drawLayoutDebug();
 
-        tho.drawDebug();
+        // tho.drawDebug();
         ho_is.drawDebug();
         ho_is.draw();
         ho_wg.drawDebug();

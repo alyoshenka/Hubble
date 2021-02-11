@@ -6,7 +6,7 @@ class testHubbleObject : public hubbleObject
 {
 
 public:
-    testHubbleObject();
+    testHubbleObject(errorDisplay *ed);
     ~testHubbleObject();
 
     void update(float dt);

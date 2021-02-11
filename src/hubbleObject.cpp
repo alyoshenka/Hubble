@@ -2,9 +2,11 @@
 
 #include <iostream>
 
-hubbleObject::hubbleObject()
+hubbleObject::hubbleObject(errorDisplay *ed)
 {
     std::cout << "hubbleObject constructed" << std::endl;
+
+    eDisp = ed;
 
     updateTime = 5;
     updateElapsed = 0;
@@ -12,6 +14,7 @@ hubbleObject::hubbleObject()
 
 hubbleObject::~hubbleObject()
 {
+    eDisp = nullptr;
     std::cout << "hubbleObject destructed" << std::endl;
 }
 
@@ -21,7 +24,7 @@ void hubbleObject::update(float dt)
 
     if (updateReady())
     {
-        std::cout << "update tho" << std::endl;
+        eDisp->addErrString("update tho");
         getTerminalOutput(basic_cmd);
         queryViaThread();
         resetUpdateTimer();

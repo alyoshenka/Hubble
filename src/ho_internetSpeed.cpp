@@ -1,13 +1,14 @@
 #include "ho_internetSpeed.h"
 
-ho_internetSpeed::ho_internetSpeed()
+ho_internetSpeed::ho_internetSpeed(errorDisplay *ed) : hubbleObject(ed)
 {
     std::cout << "ho_is constructor" << std::endl;
 
     dn = 199.99;
     up = 9.99;
 
-    updateTime = 3;
+    updateTime = 15 * 60; // min
+    updateElapsed = updateTime;
 
     setSpeedStrings();
 }
@@ -36,7 +37,7 @@ void ho_internetSpeed::drawDebug()
 
 void ho_internetSpeed::query()
 {
-    std::cout << "query internet speed" << std::endl;
+    eDisp->addErrString("query internet speed");
 }
 
 void ho_internetSpeed::setSpeedStrings()

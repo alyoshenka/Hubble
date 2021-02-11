@@ -1,6 +1,6 @@
 #include "testHubbleObject.h"
 
-testHubbleObject::testHubbleObject() : hubbleObject()
+testHubbleObject::testHubbleObject(errorDisplay *ed) : hubbleObject(ed)
 {
     std::cout << "tho constructed" << std::endl;
 }
@@ -15,7 +15,7 @@ void testHubbleObject::update(float dt)
     hubbleObject::update(dt);
     if (updateReady())
     {
-        std::cout << "update tho" << std::endl;
+        eDisp->addErrString("update tho");
         getTerminalOutput(basic_cmd);
         queryViaThread();
         resetUpdateTimer();
@@ -31,5 +31,5 @@ void testHubbleObject::drawDebug()
 
 void testHubbleObject::query()
 {
-    std::cout << "tho query func" << std::endl;
+    eDisp->addErrString("tho query func");
 }

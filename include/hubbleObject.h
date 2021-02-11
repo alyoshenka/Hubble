@@ -3,6 +3,8 @@
 #include "peripheral.h"
 #include "displayBlock.h"
 
+#include "errorDisplay.h"
+
 #include "commands.h"
 
 #include <iostream>
@@ -16,10 +18,14 @@ class hubbleObject : public peripheral, public displayBlock
     std::future<void> fut;
 #endif
 
+    hubbleObject(); // enforce errorDisplay
+
 protected:
     float updateTime, updateElapsed; // how often to update, time since last update, (s)
+    errorDisplay *eDisp;
+
 public:
-    hubbleObject();
+    hubbleObject(errorDisplay *ed);
     ~hubbleObject();
 
     void update(float dt);

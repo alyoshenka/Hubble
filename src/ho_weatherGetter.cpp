@@ -1,13 +1,14 @@
 #include "ho_weatherGetter.h"
 
-ho_weatherGetter::ho_weatherGetter()
+ho_weatherGetter::ho_weatherGetter(errorDisplay *ed) : hubbleObject(ed)
 {
     std::cout << "ho_weatherGetter constructed" << std::endl;
 
     wthr = "weather string";
     temp = "00 *f";
 
-    updateTime = 10;
+    updateTime = 20 * 60; // 20 min
+    updateElapsed = updateTime;
 }
 
 ho_weatherGetter::~ho_weatherGetter()
@@ -17,7 +18,7 @@ ho_weatherGetter::~ho_weatherGetter()
 
 void ho_weatherGetter::query()
 {
-    std::cout << "ho_weatherGetter query" << std::endl;
+    eDisp->addErrString("ho_weatherGetter query");
 }
 
 void ho_weatherGetter::draw()

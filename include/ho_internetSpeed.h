@@ -18,7 +18,7 @@ class ho_internetSpeed : public hubbleObject
     void setSpeedStrings();
 
 public:
-    ho_internetSpeed();
+    ho_internetSpeed(errorDisplay *ed);
     ~ho_internetSpeed();
 
     void draw();
