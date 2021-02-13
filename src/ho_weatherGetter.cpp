@@ -19,6 +19,16 @@ ho_weatherGetter::~ho_weatherGetter()
 void ho_weatherGetter::query()
 {
     eDisp->addErrString("ho_weatherGetter query");
+    std::cout << "ho_weatherGetter query" << std::endl;
+    
+    string wthrNew = getTerminalOutput(get_weather_full);
+    if(validateData(wthrNew)) { wthr = wthrNew; }
+    string tempNew = getTerminalOutput(get_temperature_full);
+    if(validateData(tempNew)) 
+    { 
+        tempNew.erase(std::remove(tempNew.begin(), tempNew.end(), '\n'), tempNew.end());
+        temp = tempNew.append(" *f"); 
+    }
 }
 
 void ho_weatherGetter::draw()

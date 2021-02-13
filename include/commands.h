@@ -11,3 +11,13 @@
 // speedtest
 #define get_up_speed "speedtest | grep Upload"
 #define get_dn_speed "speedtest | grep Download"
+
+// weather
+#define get_weather "weatherpi weather"
+#define get_temperature "weatherpi temperature"
+
+#define get_weather_full "/home/jay/WeatherPi/main.py weather"
+#define get_temperature_full "/home/jay/WeatherPi/main.py temperature"
+
+// CPU temp
+#define get_cpu_temp "measure_temp"

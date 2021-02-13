@@ -4,9 +4,10 @@
 
 string peripheral::getTerminalOutput(string cmd)
 {
-    std::cout << "getting output from: " << cmd << std::endl;
+    
 
 #if ON_RPI
+    std::cout << "getting output from: " << cmd << std::endl;
     char buffer[128];
     string res = "";
     FILE *stream = popen(cmd.c_str(), "r");
@@ -26,10 +27,11 @@ string peripheral::getTerminalOutput(string cmd)
     }
 
     pclose(stream);
+    std::cout << "result: " << res << std::endl;
     return res;
 #endif
 
-    // nothing to return
+    std::cout << "nothing to return" << std::endl;
     return "";
 }
 
