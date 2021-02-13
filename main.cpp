@@ -7,22 +7,18 @@
 #endif
 
 #include "display.h"
-#include "weatherGetter.h"
 #include "colors.h"
 #include "sensor.h"
 #include "commandListener.h"
 #include "commandManager.h"
 #include "faces.h"
-#include "internetSpeed.h"
 #include "errorDisplay.h"
 
-#include "testHubbleObject.h"
 #include "ho_internetSpeed.h"
 #include "ho_weatherGetter.h"
 
 #include <iostream>
 
-#define ctor_debug true
 
 int main()
 {
@@ -35,47 +31,17 @@ int main()
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
 
     errorDisplay *errorDisp = new errorDisplay(); 
-    #if ctor_debug 
-    std::cout << "ed" << std::endl; 
-    #endif
-
-    weatherGetter weatherman(errorDisp); 
-    #if ctor_debug 
-    std::cout << "wm" << std::endl; 
-    #endif
     sensorDisplay tempHumd(errorDisp); 
-    #if ctor_debug 
-    std::cout << "th" << std::endl; 
-    #endif
     display d(screenWidth, screenHeight, errorDisp); 
-    #if ctor_debug 
-    std::cout << "d" << std::endl; 
-    #endif
     display *disp = &d; 
-    #if ctor_debug 
-    std::cout << "ds" << std::endl; 
-    #endif
-    internetSpeed iSpeed(errorDisp); 
-    #if ctor_debug 
-    std::cout << "is" << std::endl; 
-    #endif
 #if ON_RPI
     // commandListener listener(errorDisp);
     // commandManager comManager(disp, errorDisp);
     // listener.sendListener();
 #endif
 
-    // testHubbleObject tho(errorDisp);
     ho_internetSpeed ho_is(errorDisp); 
-    #if ctor_debug 
-    std::cout << "his" << std::endl; 
-    #endif
     ho_weatherGetter ho_wg(errorDisp); 
-    #if ctor_debug 
-    std::cout << "hwg" << std::endl; 
-    #endif
-    
-    std::cout << "loop";
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -87,9 +53,7 @@ int main()
         //----------------------------------------------------------------------------------
         float frameTime = GetFrameTime();
         disp->update(frameTime);
-        // weatherman.update(frameTime);
         tempHumd.update(frameTime);
-        iSpeed.update(frameTime);
 #if ON_RPI
 /*
         listener.listen();
@@ -100,7 +64,6 @@ int main()
         * */
 #endif
 
-        // tho.update(frameTime);
         ho_is.update(frameTime);
         ho_wg.update(frameTime);
 
@@ -111,20 +74,16 @@ int main()
 
         ClearBackground(A_BLUE);
 
-        
+        errorDisp->draw();
 
-        // tho.drawDebug();
         ho_is.drawDebug();
         ho_is.draw();
         ho_wg.drawDebug();
         ho_wg.draw();
 
         disp->draw();
-        // weatherman.draw();
         tempHumd.draw();
-        iSpeed.draw();
         
-        errorDisp->draw();
         disp->drawLayoutDebug();
 
         // string msg = listener.getMessage();

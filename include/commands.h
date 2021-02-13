@@ -1,3 +1,5 @@
+#pragma once
+
 // defines cl commands to query sensor data
 
 // test

@@ -1,11 +1,14 @@
 #pragma once
 
+#include "config.h"
+#include "commands.h"
+
 #include "peripheral.h"
 #include "displayBlock.h"
 
 #include "errorDisplay.h"
 
-#include "commands.h"
+
 
 #include <future> // std::future
 #include <chrono> // chrono literals

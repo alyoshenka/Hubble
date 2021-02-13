@@ -2,7 +2,9 @@
 
 ho_weatherGetter::ho_weatherGetter(errorDisplay *ed) : hubbleObject(ed)
 {
+#if ctor_debug
     std::cout << "ho_weatherGetter constructed" << std::endl;
+#endif
 
     wthr = "weather string";
     temp = "00 *f";
@@ -13,13 +15,14 @@ ho_weatherGetter::ho_weatherGetter(errorDisplay *ed) : hubbleObject(ed)
 
 ho_weatherGetter::~ho_weatherGetter()
 {
+#if dtor_debug
     std::cout << "ho_weatherGetter destructed" << std::endl;
+#endif
 }
 
 void ho_weatherGetter::query()
 {
     eDisp->addErrString("ho_weatherGetter query");
-    std::cout << "ho_weatherGetter query" << std::endl;
     
     string wthrNew = getTerminalOutput(get_weather_full);
     if(validateData(wthrNew)) { wthr = wthrNew; }
