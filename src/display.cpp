@@ -124,8 +124,11 @@ void display::drawLayoutDebug()
 	DrawRectangleLines(0, 0, 300, 80, WHITE);
 	// alert icons
 	DrawRectangleLines(300, 0, 300, 80, WHITE);
-	// temp data
+	// sensor data
 	DrawRectangleLines(600, 0, 200, 280, WHITE);
+	DrawRectangleLines(600, 0, 200, 120, YELLOW);
+	DrawRectangleLines(600, 120, 200, 80, ORANGE);
+	DrawRectangleLines(600, 200, 200, 80, RED);
 	// face
 	DrawRectangleLines(600, 280, 200, 200, WHITE);
 	// time & speed

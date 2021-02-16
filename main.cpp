@@ -8,7 +8,6 @@
 
 #include "display.h"
 #include "colors.h"
-#include "sensor.h"
 #include "commandListener.h"
 #include "commandManager.h"
 #include "faces.h"
@@ -16,14 +15,15 @@
 
 #include "ho_internetSpeed.h"
 #include "ho_weatherGetter.h"
+#include "ho_cpuTemp.h"
+#include "ho_dht22.h"
 
 #include <iostream>
 
 
+
 int main()
 {
-    std::cout << "starting" << std::endl;
-
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
@@ -31,7 +31,6 @@ int main()
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
 
     errorDisplay *errorDisp = new errorDisplay(); 
-    sensorDisplay tempHumd(errorDisp); 
     display d(screenWidth, screenHeight, errorDisp); 
     display *disp = &d; 
 #if ON_RPI
@@ -42,6 +41,8 @@ int main()
 
     ho_internetSpeed ho_is(errorDisp); 
     ho_weatherGetter ho_wg(errorDisp); 
+    ho_cpuTemp ho_ct(errorDisp);
+    ho_dht22 ho_dh(errorDisp);
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -53,7 +54,6 @@ int main()
         //----------------------------------------------------------------------------------
         float frameTime = GetFrameTime();
         disp->update(frameTime);
-        tempHumd.update(frameTime);
 #if ON_RPI
 /*
         listener.listen();
@@ -66,6 +66,8 @@ int main()
 
         ho_is.update(frameTime);
         ho_wg.update(frameTime);
+        ho_ct.update(frameTime);
+        ho_dh.update(frameTime);
 
         //----------------------------------------------------------------------------------
 
@@ -76,15 +78,22 @@ int main()
 
         errorDisp->draw();
 
+#if draw_debug
         ho_is.drawDebug();
-        ho_is.draw();
         ho_wg.drawDebug();
-        ho_wg.draw();
-
-        disp->draw();
-        tempHumd.draw();
+        ho_ct.drawDebug();
+        ho_dh.drawDebug();
         
         disp->drawLayoutDebug();
+#endif
+        
+        ho_is.draw();
+        ho_wg.draw();
+        ho_ct.draw();
+        ho_dh.draw();
+
+        disp->draw();           
+        
 
         // string msg = listener.getMessage();
         // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }

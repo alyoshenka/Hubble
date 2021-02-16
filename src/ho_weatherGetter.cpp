@@ -43,5 +43,5 @@ void ho_weatherGetter::draw()
 
 void ho_weatherGetter::drawDebug()
 {
-    DrawRectangleLines(600, 0, 200, 105, PINK);
+    DrawRectangle(600, 0, 200, 120, YELLOW);
 }

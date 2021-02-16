@@ -23,3 +23,4 @@
 
 // CPU temp
 #define get_cpu_temp "measure_temp"
+#define get_cpu_temp_full "/opt/vc/bin/vcgencmd measure_temp"
