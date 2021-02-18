@@ -1,10 +1,20 @@
+#pragma once
 
 #include <string>
+#include <future> // async
+#include <algorithm> // std::erase
+
+#include "config.h"
+
 using std::string;
 
 // queries for peripheral data
 class peripheral
 {
+protected:
+#if ON_RPI
+    std::future<void> fut;
+#endif
 
 public:
     // get terminal response to cmd

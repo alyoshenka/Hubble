@@ -7,50 +7,43 @@
 #endif
 
 #include "display.h"
-#include "weatherGetter.h"
 #include "colors.h"
-#include "sensor.h"
 #include "commandListener.h"
 #include "commandManager.h"
 #include "faces.h"
-#include "internetSpeed.h"
 #include "errorDisplay.h"
 
-#include "testHubbleObject.h"
 #include "ho_internetSpeed.h"
 #include "ho_weatherGetter.h"
+#include "ho_cpuTemp.h"
+#include "ho_dht22.h"
 
 #include <iostream>
 
+
+
 int main()
 {
-    std::cout << "starting" << std::endl;
-
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
+    HideCursor();
 
-    errorDisplay *errorDisp = new errorDisplay();
-
-    weatherGetter weatherman(errorDisp);
-    sensorDisplay tempHumd(errorDisp);
-    display d(screenWidth, screenHeight, errorDisp);
-    display *disp = &d;
-    internetSpeed iSpeed(errorDisp);
+    errorDisplay *errorDisp = new errorDisplay(); 
+    display d(screenWidth, screenHeight, errorDisp); 
+    display *disp = &d; 
 #if ON_RPI
     // commandListener listener(errorDisp);
     // commandManager comManager(disp, errorDisp);
-#endif
-
-    // testHubbleObject tho(errorDisp);
-    ho_internetSpeed ho_is(errorDisp);
-    ho_weatherGetter ho_wg(errorDisp);
-
-#if ON_RPI
     // listener.sendListener();
 #endif
+
+    ho_internetSpeed ho_is(errorDisp); 
+    ho_weatherGetter ho_wg(errorDisp); 
+    ho_cpuTemp ho_ct(errorDisp);
+    ho_dht22 ho_dh(errorDisp);
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -62,9 +55,6 @@ int main()
         //----------------------------------------------------------------------------------
         float frameTime = GetFrameTime();
         disp->update(frameTime);
-        weatherman.update(frameTime);
-        tempHumd.update(frameTime);
-        iSpeed.update(frameTime);
 #if ON_RPI
 /*
         listener.listen();
@@ -75,30 +65,36 @@ int main()
         * */
 #endif
 
-        // tho.update(frameTime);
         ho_is.update(frameTime);
         ho_wg.update(frameTime);
+        ho_ct.update(frameTime);
+        ho_dh.update(frameTime);
 
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
 
-        ClearBackground(A_BLUE);
+        ClearBackground(A_BLUE);    
 
         errorDisp->draw();
-        disp->drawLayoutDebug();
 
-        // tho.drawDebug();
+#if draw_debug
         ho_is.drawDebug();
-        ho_is.draw();
         ho_wg.drawDebug();
+        ho_ct.drawDebug();
+        ho_dh.drawDebug();
+        
+        disp->drawLayoutDebug();
+#endif
+        
+        ho_is.draw();
         ho_wg.draw();
+        ho_ct.draw();
+        ho_dh.draw();
 
-        disp->draw();
-        weatherman.draw();
-        tempHumd.draw();
-        iSpeed.draw();
+        disp->draw();           
+        
 
         // string msg = listener.getMessage();
         // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
