@@ -4,8 +4,6 @@
 
 string peripheral::getTerminalOutput(string cmd)
 {
-    
-
 #if ON_RPI
     std::cout << "getting output from: " << cmd << std::endl;
     char buffer[128];
@@ -25,9 +23,9 @@ string peripheral::getTerminalOutput(string cmd)
             res += buffer;
         }
     }
-
-    pclose(stream);
-    std::cout << "result: " << res << std::endl;
+    pclose(stream); 
+    
+    std::cout << "result from " << cmd << ": " << res << std::endl;
     return res;
 #endif
 

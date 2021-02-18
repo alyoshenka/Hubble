@@ -2,6 +2,7 @@
 
 #include <string>
 #include <future> // async
+#include <algorithm> // std::erase
 
 #include "config.h"
 

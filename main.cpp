@@ -29,6 +29,7 @@ int main()
     const int screenHeight = 480;
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
+    HideCursor();
 
     errorDisplay *errorDisp = new errorDisplay(); 
     display d(screenWidth, screenHeight, errorDisp); 
@@ -74,7 +75,7 @@ int main()
         // Draw
         //----------------------------------------------------------------------------------
 
-        ClearBackground(A_BLUE);
+        ClearBackground(A_BLUE);    
 
         errorDisp->draw();
 
