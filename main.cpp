@@ -19,29 +19,37 @@
 #include "ho_dht22.h"
 
 #include <iostream>
-
-
+#include <exception> // exception
 
 int main()
 {
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
+    bool display_available = true;
 
-    InitWindow(screenWidth, screenHeight, "hubble_v2.1");
-    HideCursor();
+    try
+    {
+        InitWindow(screenWidth, screenHeight, "hubble_v2.1");
+        HideCursor();
+    }
+    catch (std::exception &e)
+    {
+        display_available = false;
+        std::cout << "display unavailable" << std::endl;
+    }
 
-    errorDisplay *errorDisp = new errorDisplay(); 
-    display d(screenWidth, screenHeight, errorDisp); 
-    display *disp = &d; 
+    errorDisplay *errorDisp = new errorDisplay();
+    display d(screenWidth, screenHeight, errorDisp);
+    display *disp = &d;
 #if ON_RPI
     // commandListener listener(errorDisp);
     // commandManager comManager(disp, errorDisp);
     // listener.sendListener();
 #endif
 
-    ho_internetSpeed ho_is(errorDisp); 
-    ho_weatherGetter ho_wg(errorDisp); 
+    ho_internetSpeed ho_is(errorDisp);
+    ho_weatherGetter ho_wg(errorDisp);
     ho_cpuTemp ho_ct(errorDisp);
     ho_dht22 ho_dh(errorDisp);
 
@@ -73,9 +81,14 @@ int main()
         //----------------------------------------------------------------------------------
 
         // Draw
-        //----------------------------------------------------------------------------------
+        if (!display_available)
+        {
+            continue;
+        }
 
-        ClearBackground(A_BLUE);    
+        //----------------------------------------------------------------------------------
+        BeginDrawing();
+        ClearBackground(A_BLUE);
 
         errorDisp->draw();
 
@@ -84,17 +97,16 @@ int main()
         ho_wg.drawDebug();
         ho_ct.drawDebug();
         ho_dh.drawDebug();
-        
+
         disp->drawLayoutDebug();
 #endif
-        
+
         ho_is.draw();
         ho_wg.draw();
         ho_ct.draw();
         ho_dh.draw();
 
-        disp->draw();           
-        
+        disp->draw();
 
         // string msg = listener.getMessage();
         // if(!msg.empty()) { std::cout << "msg: " << msg << std::endl; }
