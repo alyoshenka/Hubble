@@ -26,22 +26,19 @@ int main()
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 480;
-    bool display_available = true;
 
-    try
-    {
-        InitWindow(screenWidth, screenHeight, "hubble_v2.1");
-        HideCursor();
-    }
-    catch (std::exception &e)
-    {
-        display_available = false;
-        std::cout << "display unavailable" << std::endl;
-    }
+    InitWindow(screenWidth, screenHeight, "hubble_v2.1");
+    bool display_available = IsWindowReady();
+    if (! display_available) { std::cout << "no display" << std::endl; }
+    HideCursor();
 
     errorDisplay *errorDisp = new errorDisplay();
-    display d(screenWidth, screenHeight, errorDisp);
-    display *disp = &d;
+    display *disp = nullptr;  
+    if(display_available)
+    {
+        display d(screenWidth, screenHeight, errorDisp);
+        display *disp = &d;
+    }
 #if ON_RPI
     // commandListener listener(errorDisp);
     // commandManager comManager(disp, errorDisp);
@@ -57,12 +54,12 @@ int main()
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!WindowShouldClose()) // Detect window close button or ESC key
+    while (display_available ? !WindowShouldClose() : true) // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-        float frameTime = GetFrameTime();
-        disp->update(frameTime);
+        float frameTime = display_available ? GetFrameTime() : 0.001;
+        if (display_available) { disp->update(frameTime); }
 #if ON_RPI
 /*
         listener.listen();
@@ -98,7 +95,8 @@ int main()
         ho_ct.drawDebug();
         ho_dh.drawDebug();
 
-        disp->drawLayoutDebug();
+        if(display_available) { disp->drawLayoutDebug(); }
+
 #endif
 
         ho_is.draw();
