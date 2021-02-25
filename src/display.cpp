@@ -3,18 +3,16 @@
 display::display(int w, int h, errorDisplay *errorDisp)
 {
 	std::cout << "display ctor" << std::endl;
-	
+
 	timeString = "time";
 	faceBorder = 10;
 	faceSize = 200 - faceBorder * 2;
 	facePos.x = w - faceSize - faceBorder;
 	facePos.y = h - faceSize - faceBorder;
-	
+
 	eDisp = errorDisp;
 
-#if ON_RPI
 	setMood(happy);
-#endif
 }
 
 display::~display() { UnloadTexture(faceTex); }
@@ -23,7 +21,7 @@ void display::setMood(mood newMood)
 {
 	std::cout << "Setting mood: " << stringMood[int(newMood)] << std::endl;
 	eDisp->addErrString("Setting mood: " + stringMood[int(newMood)]);
-	
+
 	currentMood = newMood;
 	std::cout << "unloading old face texture" << std::endl;
 	UnloadTexture(faceTex);
@@ -34,7 +32,7 @@ void display::setMood(mood newMood)
 	ImageResize(&img, faceSize, faceSize);
 	faceTex = LoadTextureFromImage(img);
 	UnloadImage(img);
-	
+
 	std::cout << "mood set successfully" << std::endl;
 }
 

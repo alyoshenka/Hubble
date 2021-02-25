@@ -60,8 +60,12 @@ const string stringMood[16] = {
 
 class display
 {
-    // hardcoded to work on startup
+// hardcoded to work on startup
+#if ON_RPI
     const std::string facesDir = "/home/jay/Hubble/thirdparty/sans/";
+#else
+    const std::string facesDir = "C:/Users/asus/Desktop/Projects/Hubble/thirdparty/sans/"; // BAD!
+#endif
 
     Font fnt;
 
