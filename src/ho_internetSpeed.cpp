@@ -41,25 +41,33 @@ void ho_internetSpeed::drawDebug()
 
 float ho_internetSpeed::speedStringToFloat(const string line)
 {
+#if periph_debug
     std::cout << line << ": ";
+#endif periph_debug
     string l = string(line);
-	int i = l.find_first_of(' ');
-	l = l.substr(i + 1);
-	i = l.find_first_of(' ');
-	l = l.substr(0, i);
+    int i = l.find_first_of(' ');
+    l = l.substr(i + 1);
+    i = l.find_first_of(' ');
+    l = l.substr(0, i);
 
-	return std::stof(l);
+    return std::stof(l);
 }
 
 void ho_internetSpeed::query()
 {
     eDisp->addErrString("ho_internetSpeed query");
-    
+
     string upNew = getTerminalOutput(get_up_speed);
-    if(validateData(upNew)) { up = speedStringToFloat(upNew); }
+    if (validateData(upNew))
+    {
+        up = speedStringToFloat(upNew);
+    }
     string dnNew = getTerminalOutput(get_dn_speed);
-    if(validateData(dnNew)) { dn = speedStringToFloat(dnNew); }
-    
+    if (validateData(dnNew))
+    {
+        dn = speedStringToFloat(dnNew);
+    }
+
     setSpeedStrings();
 }
 

@@ -11,7 +11,7 @@
 #include <string>
 using std::string;
 
-class errorDisplay
+class errorDisplay // : public displayBlock
 {
     const int dispNum = 14;
     int errStrCnt;

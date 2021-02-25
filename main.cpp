@@ -29,15 +29,14 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "hubble_v2.1");
     bool display_available = IsWindowReady();
-    if (! display_available) { std::cout << "no display" << std::endl; }
+    std::cout << (display_available ? "" : "no") << " display detected" << std::endl;
     HideCursor();
 
     errorDisplay *errorDisp = new errorDisplay();
-    display *disp = nullptr;  
-    if(display_available)
+    display *disp;
+    if (display_available)
     {
-        display d(screenWidth, screenHeight, errorDisp);
-        display *disp = &d;
+        disp = new display(screenWidth, screenHeight, errorDisp);
     }
 #if ON_RPI
     // commandListener listener(errorDisp);
@@ -51,15 +50,20 @@ int main()
     ho_dht22 ho_dh(errorDisp);
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+                      //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (display_available ? !WindowShouldClose() : true) // Detect window close button or ESC key
+    bool run = display_available ? !WindowShouldClose() : true;
+    while (run) // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
         float frameTime = display_available ? GetFrameTime() : 0.001;
-        if (display_available) { disp->update(frameTime); }
+
+        if (nullptr != disp)
+        {
+            disp->update(frameTime);
+        }
 #if ON_RPI
 /*
         listener.listen();
@@ -80,6 +84,7 @@ int main()
         // Draw
         if (!display_available)
         {
+            run = display_available ? !WindowShouldClose() : true;
             continue;
         }
 
@@ -95,7 +100,10 @@ int main()
         ho_ct.drawDebug();
         ho_dh.drawDebug();
 
-        if(display_available) { disp->drawLayoutDebug(); }
+        if (display_available)
+        {
+            disp->drawLayoutDebug();
+        }
 
 #endif
 
@@ -111,6 +119,8 @@ int main()
 
         EndDrawing();
         //----------------------------------------------------------------------------------
+
+        run = display_available ? !WindowShouldClose() : true;
     }
 
 // De-Initialization
@@ -118,7 +128,7 @@ int main()
 #if ON_RPI
     // listener.stopListener();
 #endif
-    delete errorDisp;
+    delete disp;
     CloseWindow(); // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

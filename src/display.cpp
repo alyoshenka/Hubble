@@ -2,7 +2,9 @@
 
 display::display(int w, int h, errorDisplay *errorDisp)
 {
+#if ctor_debug
 	std::cout << "display ctor" << std::endl;
+#endif
 
 	timeString = "time";
 	faceBorder = 10;
@@ -15,7 +17,10 @@ display::display(int w, int h, errorDisplay *errorDisp)
 	setMood(happy);
 }
 
-display::~display() { UnloadTexture(faceTex); }
+display::~display()
+{
+	UnloadTexture(faceTex);
+}
 
 void display::setMood(mood newMood)
 {
@@ -23,9 +28,7 @@ void display::setMood(mood newMood)
 	eDisp->addErrString("Setting mood: " + stringMood[int(newMood)]);
 
 	currentMood = newMood;
-	std::cout << "unloading old face texture" << std::endl;
 	UnloadTexture(faceTex);
-	std::cout << "unloaded old face texture" << std::endl;
 	std::string num = std::to_string((int)currentMood + 1);
 	std::string fileName = facesDir + "sansf" + num + ".png";
 	Image img = LoadImage(fileName.c_str());
@@ -33,6 +36,7 @@ void display::setMood(mood newMood)
 	faceTex = LoadTextureFromImage(img);
 	UnloadImage(img);
 
+	eDisp->addErrString("mood set successfully");
 	std::cout << "mood set successfully" << std::endl;
 }
 
@@ -41,14 +45,13 @@ void display::setMood(string newMood)
 	// optimize, no MNs
 	for (int i = 0; i < 16; i++)
 	{
-		// std::cout << stringMood[i] << "=" << newMood << std::endl;
 		if (stringMood[i].compare(newMood) == 0)
 		{
 			setMood(i);
 			return;
 		}
 	}
-	// std::cout << "No mood matches " << newMood << std::endl;
+	std::cout << "No mood matches " << newMood << std::endl;
 	eDisp->addErrString("No mood matches " + newMood);
 }
 
@@ -103,13 +106,14 @@ void display::update(float frameTime)
 void display::draw()
 {
 	DrawText("HUBBLE", 10, 10, 70, A_BLUE_3);
+
 	// DrawText(FACE_AT, 320, 320, 160, A_BLUE_4);
+
 	DrawText(timeString.c_str(), 10, 410, 60, A_GREEN_2);
+
 	// DrawTextRec(fnt, timeString.c_str(), {10, 410, 60, 280}, 60, 1, false, A_GREEN_2); // seg fault
 
 	DrawTexture(faceTex, facePos.x, facePos.y, WHITE);
-
-	// drawLayoutDebug();
 }
 
 void display::drawLayoutDebug()

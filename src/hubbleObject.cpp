@@ -4,7 +4,9 @@
 
 hubbleObject::hubbleObject(errorDisplay *ed)
 {
+#if ctor_debug
     std::cout << "hubbleObject constructed" << std::endl;
+#endif
 
     eDisp = ed;
 
@@ -15,7 +17,9 @@ hubbleObject::hubbleObject(errorDisplay *ed)
 hubbleObject::~hubbleObject()
 {
     eDisp = nullptr;
+#if dtor_debug
     std::cout << "hubbleObject destructed" << std::endl;
+#endif
 }
 
 bool hubbleObject::validateData(string data) { return data.length() > 0; }
@@ -31,28 +35,27 @@ void hubbleObject::update(float dt)
         queryViaThread();
         resetUpdateTimer();
     }
-    
+
 #if ON_RPI
     if (fut.valid())
     {
         // is this ok?
         // eDisp->addErrString("fut valid");
         try
-		{
-			std::future_status s = fut.wait_for(0ms);
-			if (std::future_status::ready == s)
-			{
-				fut.get();
+        {
+            std::future_status s = fut.wait_for(0ms);
+            if (std::future_status::ready == s)
+            {
+                fut.get();
 
-				eDisp->addErrString("recieved peripheral data");
-			}
-		}
-		catch (const std::future_error &e)
-		{
-			std::cerr << "future error: " << e.code() << std::endl;
-			eDisp->addErrString("future error");
-		}
-        
+                eDisp->addErrString("recieved peripheral data");
+            }
+        }
+        catch (const std::future_error &e)
+        {
+            std::cerr << "future error: " << e.code() << std::endl;
+            eDisp->addErrString("future error");
+        }
     }
 #endif
 }

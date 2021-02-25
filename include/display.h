@@ -12,6 +12,7 @@
 #pragma warning(disable : 4996)
 #endif
 
+#include "displayBlock.h"
 #include "colors.h"
 #include "faces.h"
 #include "errorDisplay.h"
@@ -58,7 +59,7 @@ const string stringMood[16] = {
     "amused",
     "gone"};
 
-class display
+class display // : public displayBlock
 {
 // hardcoded to work on startup
 #if ON_RPI

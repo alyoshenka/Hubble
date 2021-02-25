@@ -1,3 +1,5 @@
+#pragma once
+
 // displays data on the screen
 
 #include "raylib.h"
